@@ -13,38 +13,7 @@ const SKILLS = [
   'Illumina 数据处理', '序列比对', 'SQLite'
 ];
 
-const PROJECTS = [
-  {
-    name: { zh: 'RNA-seq 差异表达分析', en: 'RNA-seq Differential Expression Analysis' },
-    desc: {
-      zh: '使用 DESeq2 和 edgeR 对公开 RNA-seq 数据集进行差异表达分析，识别关键差异基因并进行 GO/KEGG 富集分析。',
-      en: 'Performed differential expression analysis on a public RNA-seq dataset using DESeq2 and edgeR, identified key DEGs, and conducted GO/KEGG enrichment analysis.'
-    },
-    tags: ['R', 'DESeq2', 'ggplot2'],
-    demo: '#',
-    source: '#'
-  },
-  {
-    name: { zh: '序列比对工具对比', en: 'Sequence Aligner Benchmark' },
-    desc: {
-      zh: '比较 BWA、Bowtie2 和 Minimap2 在不同读长和错误率下的比对速度与准确率，撰写了一份课程小论文。',
-      en: 'Compared alignment speed and accuracy of BWA, Bowtie2, and Minimap2 under different read lengths and error rates for a course paper.'
-    },
-    tags: ['Bash', 'Python', 'BWA', 'Minimap2'],
-    demo: '#',
-    source: '#'
-  },
-  {
-    name: { zh: '个人学习笔记', en: 'Study Notes' },
-    desc: {
-      zh: '用 Markdown 整理的生信学习笔记，涵盖常用命令、分析流程和一些踩过的坑。',
-      en: 'Markdown-based study notes on bioinformatics, covering common commands, analysis pipelines, and lessons learned.'
-    },
-    tags: ['Markdown', 'Linux'],
-    demo: '#',
-    source: '#'
-  }
-];
+const PROJECTS = [];
 
 const PHOTOS = [
   { src: 'images/photos/冬日的树.jpg', alt: '冬日的树' },
