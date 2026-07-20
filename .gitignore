@@ -1,0 +1,13 @@
+# 原始大图（只保留压缩版在 photos/ 下）
+images/*.jpg
+images/*.JPG
+images/*.png
+
+# 保留压缩后的照片和占位图
+!images/photos/
+!images/avatar-placeholder.svg
+!images/lab_logo.png
+!images/zju_logo.png
+!images/edinburgh.png
+
+.DS_Store

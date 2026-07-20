@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bowen Zheng — Bioinformatics Undergraduate">
+  <title>Bowen Zheng</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <header class="header">
+    <nav class="nav container">
+      <span class="nav__brand">
+          <img src="images/zju_logo.png" alt="Zhejiang University" class="nav__logo-img">
+          <img src="images/edinburgh.png" alt="University of Edinburgh" class="nav__logo-img">
+          <a href="#top" class="nav__logo">Bowen Zheng</a>
+        </span>
+      <ul class="nav__links">
+        <li><a href="#about" data-i18n="nav.about">About</a></li>
+        <li><a href="#honors" data-i18n="nav.honors">Honors</a></li>
+        <li><a href="#service" data-i18n="nav.service">Service</a></li>
+        <li><a href="#research" data-i18n="nav.research">Research</a></li>
+        <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+        <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+        <li><a href="#photos" data-i18n="nav.photos">Photos</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <div class="nav__right">
+        <button class="nav__btn" id="lang-toggle" aria-label="Switch language">
+          <span data-i18n="lang.label">中</span>
+        </button>
+        <button class="nav__btn" id="theme-toggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="book">
+    <!-- Intro -->
+    <section class="intro" id="top">
+      <div class="container">
+        <p class="intro__hi" data-i18n="intro.hi">Hi, I'm</p>
+        <h1 class="intro__name" data-i18n="intro.name">Bowen Zheng</h1>
+        <p class="intro__desc" data-i18n="intro.desc">
+          A junior undergraduate in Bioinformatics.
+        </p>
+        <p class="intro__loc" data-i18n="intro.loc">📍 Zhejiang University - University of Edinburgh Institute (ZJE) · Bioinformatics</p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="about.title">About</h2>
+        <div class="about__grid">
+          <p data-i18n="about.p1">
+            I'm Bowen Zheng, a junior undergraduate in Bioinformatics at the Zhejiang University - University of Edinburgh Institute (ZJE). I have maintained strong academic performance and was awarded the Zhejiang Provincial Government Scholarship. Since my freshman year, I've been conducting research in Dr. Wanlu Liu's lab at ZJE. In the summer of my sophomore year, I completed an internship at the National Institute of Biological Sciences (NIBS) in Beijing, working under Dr. Bin Li at the Bioinformatics Center. Looking ahead, I aspire to deepen my work in AI for Science — leveraging new technologies to advance the intersection of computational science and biomedicine.
+          </p>
+          <p data-i18n="about.p2">
+            Beyond academics, I find joy in photography, reading, and music. I claim no mastery in any, yet each offers its own rhythm: the shutter freezing fleeting moments, the pages holding boundless thoughts, the melodies quieting the rush of daily life. In these passions, I settle into myself and catch glimpses of what truly matters.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Honors -->
+    <section class="honors" id="honors">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="honors.title">Honors & Awards</h2>
+        <ul class="honors__list">
+          <li data-i18n="honors.item1">Zhejiang Provincial Government Scholarship (2024-25)</li>
+          <li data-i18n="honors.item2">Zhejiang University Second-Class Scholarship</li>
+          <li data-i18n="honors.item3">ZJE Second-Class Scholarship</li>
+          <li data-i18n="honors.item4">Mathematical Contest in Modeling (MCM) — Meritorious Winner, COMAP, Problem A</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Service -->
+    <section class="service" id="service">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="service.title">Leadership & Service</h2>
+        <ul class="service__list">
+          <li data-i18n="service.item1">Staff member, Culture, Publicity & New Media Center, Student Union of International Campus, Zhejiang University (2024-25)</li>
+          <li data-i18n="service.item2">Deputy Head of LENS, the student video team at Zhejiang University - University of Edinburgh Institute (ZJE)</li>
+          <li data-i18n="service.item3">Head of the Integrated Media Center, General Office of International Campus, Zhejiang University</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Research -->
+    <section class="research" id="research">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="research.title">Research Experience</h2>
+        <div class="research__entry">
+          <div class="research__header">
+            <img src="images/lab_logo.png" alt="LAB W" class="research__logo">
+            <div>
+              <h3 class="research__lab" data-i18n="research.lab">Dr. Wanlu Liu's Lab</h3>
+              <span class="research__meta">
+              <span data-i18n="research.affil">ZJU - University of Edinburgh Institute</span>
+              <span class="research__dot">·</span>
+              <span data-i18n="research.period">2025.3 — Present</span>
+            </span>
+            </div>
+          </div>
+          <p class="research__project" data-i18n="research.project">
+            Immune mechanisms of inflammatory bowel disease susceptibility in patients with autoimmune disease
+          </p>
+          <ul class="research__list">
+            <li data-i18n="research.skill1">Literature search and review</li>
+            <li data-i18n="research.skill2">Bioinformatics analysis with Python and R</li>
+            <li data-i18n="research.skill3">Data processing in Linux command-line environment</li>
+            <li data-i18n="research.skill4">Single-cell transcriptomics data QC, clustering, and visualization</li>
+            <li data-i18n="research.skill5">Group meetings &amp; Journal Club presentations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="skills" id="skills">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="skills.title">Skills</h2>
+        <div class="skills__grid" id="skills-grid"></div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="projects" id="projects">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="projects.title">Projects</h2>
+        <div class="projects__list" id="projects-list"></div>
+      </div>
+    </section>
+
+    <!-- Photos -->
+    <section class="photos" id="photos">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="photos.title">Photography</h2>
+        <p class="photos__intro" data-i18n="photos.intro">
+          Moments made eternal.
+        </p>
+        <div class="photos__grid" id="photos-grid"></div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <h2 class="sec__title" data-i18n="contact.title">Contact</h2>
+        <p class="contact__text" data-i18n="contact.text">
+          Feel free to reach out via email or GitHub.
+        </p>
+        <div class="contact__links">
+          <a href="mailto:bowen2.24@intl.zju.edu.cn" class="contact__link">
+            <i class="fa-solid fa-envelope"></i>Email
+          </a>
+          <a href="https://github.com/tintin-zheng" class="contact__link" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github"></i>GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p data-i18n="footer.copy">&copy; 2026 Bowen Zheng</p>
+      </div>
+    </footer>
+  </div><!-- .book -->
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
