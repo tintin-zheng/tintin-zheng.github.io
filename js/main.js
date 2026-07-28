@@ -13,7 +13,21 @@ const SKILLS = [
   'Illumina 数据处理', '序列比对', 'SQLite'
 ];
 
-const PROJECTS = [];
+const PROJECTS = [
+  {
+    name: {
+      zh: 'TCGA 湿实验验证靶点挖掘管线',
+      en: 'TCGA Wet-Lab Validated Target Mining Pipeline'
+    },
+    desc: {
+      zh: '基于大语言模型的自动化文献挖掘管线，系统地从高质量生物医学文献中筛选 33 种 TCGA 癌型中经过湿实验验证的分子靶点。覆盖 ~67,000 篇论文，提取 ~32,000 条靶点-疾病关联。支持多线程并发、断点续跑与 HGNC 基因名标准化。',
+      en: 'An LLM-powered automated pipeline that systematically mines wet-lab experimentally validated molecular targets across all 33 TCGA cancer types from high-impact biomedical literature. Screened ~67,000 papers and extracted ~32,000 target-disease associations, with multi-threaded concurrency, checkpoint/resume, and HGNC gene standardization.'
+    },
+    tags: ['Python', 'LLM', 'PubMed API', 'DeepSeek', 'TCGA', 'BioPython'],
+    demo: '#',
+    source: 'https://github.com/tintin-zheng/TCGA_Wet_Lab_Validated_Target_Mining'
+  }
+];
 
 const PHOTOS = [
   { src: 'images/photos/冬日的树.jpg', alt: '冬日的树' },
