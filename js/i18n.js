@@ -46,7 +46,7 @@ const translations = {
     'research.skill4': '单细胞转录组数据质控、聚类与可视化',
     'research.skill5': '组会报告与 Journal Club 文献研讨',
 
-    'research2.lab': 'Li Lab',
+    'research2.lab': '黎斌课题组',
     'research2.affil': '北京生命科学研究所（NIBS）生物信息中心',
     'research2.period': '2026 暑期',
     'research2.skill1': '为大语言模型开发文献靶点挖掘自动化管线（Harness）',
