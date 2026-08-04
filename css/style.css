@@ -505,16 +505,99 @@ a:hover { text-decoration: underline; }
   margin-bottom: 1.5rem;
 }
 
-.photos__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
+.photo-helix {
+  --helix-bg: var(--c-paper);
+  position: relative;
+  width: 100%;
+  height: clamp(620px, 80dvh, 880px);
+  overflow: hidden;
+  overflow: clip;
+  isolation: isolate;
+  border: 0;
+  border-radius: 0;
+  background: var(--helix-bg);
+  box-shadow: none;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+}
+
+.photo-helix:focus-visible {
+  outline: 1px dashed color-mix(in srgb, var(--c-accent) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.photo-helix.is-dragging {
+  cursor: grabbing;
+}
+
+.photo-helix::before,
+.photo-helix::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 110;
+  pointer-events: none;
+}
+
+.photo-helix::before {
+  background: linear-gradient(
+    to bottom,
+    var(--helix-bg) 0%,
+    transparent 18%,
+    transparent 82%,
+    var(--helix-bg) 100%
+  );
+}
+
+.photo-helix::after {
+  background: linear-gradient(
+    to right,
+    var(--helix-bg) 0%,
+    transparent 9%,
+    transparent 91%,
+    var(--helix-bg) 100%
+  );
+}
+
+.photo-helix__stage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  perspective: 75em;
+  transform-style: preserve-3d;
 }
 
 .photo-card {
-  overflow: hidden;
-  border-radius: 4px;
+  --recede: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--photo-card-width, 300px);
   aspect-ratio: 3 / 2;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: calc(var(--photo-card-width, 300px) * 0.041);
+  background: #fff;
+  box-shadow: none;
+  pointer-events: none;
+  user-select: none;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  backface-visibility: visible;
+}
+
+.photo-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--helix-bg);
+  opacity: var(--recede, 0);
+  pointer-events: none;
 }
 
 .photo-card img {
@@ -522,16 +605,55 @@ a:hover { text-decoration: underline; }
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s;
-}
-
-.photo-card:hover img {
-  transform: scale(1.03);
+  pointer-events: none;
 }
 
 @media (max-width: 600px) {
-  .photos__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .photo-helix {
+    height: auto;
+    overflow: visible;
+    cursor: auto;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .photo-helix::before,
+  .photo-helix::after {
+    display: none;
+  }
+
+  .photo-helix__stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    perspective: none;
+  }
+
+  .photo-card {
+    display: none;
+  }
+
+  .photo-card[data-primary="true"] {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: block;
+    width: 100%;
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    transform: none !important;
+    border-radius: 6px;
+  }
+
+  .photo-card[data-primary="true"]::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-helix {
+    cursor: default;
   }
 }
 
