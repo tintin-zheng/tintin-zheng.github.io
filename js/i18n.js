@@ -48,7 +48,7 @@ const translations = {
 
     'research2.lab': 'Li Lab',
     'research2.affil': '北京生命科学研究所（NIBS）生物信息中心',
-    'research2.period': '2025 暑期',
+    'research2.period': '2026 暑期',
     'research2.skill1': '为大语言模型开发文献靶点挖掘自动化管线（Harness）',
 
     'skills.title': '技能',
@@ -111,7 +111,7 @@ const translations = {
 
     'research2.lab': 'Li Lab',
     'research2.affil': 'Bioinformatics Center, National Institute of Biological Sciences (NIBS), Beijing',
-    'research2.period': 'Summer 2025',
+    'research2.period': 'Summer 2026',
     'research2.skill1': 'Developed an automated literature target mining harness for large language models',
 
     'skills.title': 'Skills',
