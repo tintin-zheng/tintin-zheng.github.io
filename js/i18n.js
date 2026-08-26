@@ -55,6 +55,7 @@ const translations = {
 
     'projects.title': '项目',
     'projects.demo': '链接',
+    'projects.appgallery': 'AppGallery',
     'projects.source': '代码',
 
     'photos.title': '摄影',
@@ -118,6 +119,7 @@ const translations = {
 
     'projects.title': 'Projects',
     'projects.demo': 'Demo',
+    'projects.appgallery': 'AppGallery',
     'projects.source': 'Code',
 
     'photos.title': 'Photography',

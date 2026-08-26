@@ -16,6 +16,24 @@ const SKILLS = [
 const PROJECTS = [
   {
     name: {
+      zh: 'LensCue — 专业提词器',
+      en: 'LensCue — Professional Teleprompter'
+    },
+    logo: 'images/lenscue-logo.png',
+    logoAlt: {
+      zh: 'LensCue 应用图标',
+      en: 'LensCue app icon'
+    },
+    desc: {
+      zh: '一款面向演讲、录制、直播与采访的本地优先专业提词器，使用 SwiftUI 与 ArkTS / ArkUI 分别构建 iOS 和 HarmonyOS NEXT 原生版本。支持沉浸式自动滚动、镜像提词、节点跳转、五级重要性标记、文稿导入导出与本地备份，并适配中英文、深色模式、手机和平板；HarmonyOS 版本现已上架 AppGallery。',
+      en: 'A local-first professional teleprompter for speeches, recording, livestreaming, and interviews, with native iOS and HarmonyOS NEXT apps built in SwiftUI and ArkTS / ArkUI. It features immersive auto-scrolling, mirror mode, marker navigation, five-level importance labels, document transfer and local backups, plus bilingual, dark-mode, phone, and tablet support. The HarmonyOS version is now available on AppGallery.'
+    },
+    tags: ['SwiftUI', 'ArkTS', 'ArkUI', 'iOS', 'HarmonyOS NEXT', 'Local-first'],
+    appGallery: 'https://appgallery.huawei.com/app/detail?id=com.tintinzheng.lenscue&channelId=SHARE&source=appshare',
+    source: 'https://github.com/tintin-zheng/LensCue'
+  },
+  {
+    name: {
       zh: 'TCGA 湿实验验证靶点挖掘管线',
       en: 'TCGA Wet-Lab Validated Target Mining Pipeline'
     },
@@ -24,7 +42,6 @@ const PROJECTS = [
       en: 'An LLM-powered automated pipeline that systematically mines wet-lab experimentally validated molecular targets across all 33 TCGA cancer types from high-impact biomedical literature. Screened ~67,000 papers and extracted ~32,000 target-disease associations, with multi-threaded concurrency, checkpoint/resume, and HGNC gene standardization.'
     },
     tags: ['Python', 'LLM', 'PubMed API', 'DeepSeek', 'TCGA', 'BioPython'],
-    demo: '#',
     source: 'https://github.com/tintin-zheng/TCGA_Wet_Lab_Validated_Target_Mining'
   }
 ];
@@ -240,14 +257,28 @@ function renderProjects() {
   const lang = getLang();
   el.innerHTML = PROJECTS.map(p => `
     <div class="project-item">
-      <div class="project-item__name">${p.name[lang]}</div>
+      ${p.logo ? `
+        <div class="project-item__intro">
+          <img
+            class="project-item__logo"
+            src="${p.logo}"
+            alt="${p.logoAlt?.[lang] || ''}"
+            width="64"
+            height="64"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="project-item__name">${p.name[lang]}</div>
+        </div>
+      ` : `<div class="project-item__name">${p.name[lang]}</div>`}
       <div class="project-item__desc">${p.desc[lang]}</div>
       <div class="project-item__tags">
         ${p.tags.map(t => `<span class="project-item__tag">${t}</span>`).join('')}
       </div>
       <div class="project-item__links">
-        <a href="${p.demo}" target="_blank" rel="noopener">${t('projects.demo')} →</a>
-        <a href="${p.source}" target="_blank" rel="noopener">${t('projects.source')} →</a>
+        ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener">${t('projects.demo')} →</a>` : ''}
+        ${p.appGallery ? `<a href="${p.appGallery}" target="_blank" rel="noopener">${t('projects.appgallery')} →</a>` : ''}
+        ${p.source ? `<a href="${p.source}" target="_blank" rel="noopener">${t('projects.source')} →</a>` : ''}
       </div>
     </div>
   `).join('');

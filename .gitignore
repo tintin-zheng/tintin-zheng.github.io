@@ -10,5 +10,6 @@ images/*.png
 !images/nibs_short.png
 !images/zju_logo.png
 !images/edinburgh.png
+!images/lenscue-logo.png
 
 .DS_Store
