@@ -1,17 +1,10 @@
 /**
- * main.js — 主题切换、语言切换、渲染技能 & 项目列表
+ * main.js — 主题切换、语言切换、渲染项目列表
  */
 
 // ============================================
 // 数据
 // ============================================
-
-const SKILLS = [
-  'Python', 'R', 'Linux / Bash', 'Git',
-  'BLAST', 'BioPython', 'SAMtools', 'BWA',
-  'Pandas', 'Matplotlib', 'ggplot2', 'Jupyter',
-  'Illumina 数据处理', '序列比对', 'SQLite'
-];
 
 const PROJECTS = [
   {
@@ -245,12 +238,6 @@ function renderPhotos() {
   };
 }
 
-function renderSkills() {
-  const el = document.getElementById('skills-grid');
-  if (!el) return;
-  el.innerHTML = SKILLS.map(s => `<span class="skill-tag">${s}</span>`).join('');
-}
-
 function renderProjects() {
   const el = document.getElementById('projects-list');
   if (!el) return;
@@ -307,6 +294,12 @@ function setLang(lang) {
     if (text !== undefined) el.textContent = text;
   });
 
+  document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+    const key = el.getAttribute('data-i18n-alt');
+    const text = translations[lang]?.[key];
+    if (text !== undefined) el.setAttribute('alt', text);
+  });
+
   renderProjects();
 }
 
@@ -343,7 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setTheme(getTheme());
   setLang(getLang());
   renderPhotos();
-  renderSkills();
   renderProjects();
 
   document.getElementById('lang-toggle').addEventListener('click', toggleLang);

@@ -22,7 +22,6 @@
         <li><a href="#honors" data-i18n="nav.honors">Honors</a></li>
         <li><a href="#service" data-i18n="nav.service">Service</a></li>
         <li><a href="#research" data-i18n="nav.research">Research</a></li>
-        <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
         <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
         <li><a href="#photos" data-i18n="nav.photos">Photos</a></li>
         <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
@@ -119,30 +118,38 @@
           </ul>
         </div>
 
-        <div class="research__entry">
-          <div class="research__header">
-            <img src="images/nibs_short.png" alt="NIBS" class="research__logo">
-            <div>
-              <h3 class="research__lab" data-i18n="research2.lab">Li Lab</h3>
-              <span class="research__meta">
-              <span data-i18n="research2.affil">Bioinformatics Center, NIBS, Beijing</span>
-              <span class="research__dot">·</span>
-              <span data-i18n="research2.period">Summer 2026</span>
-            </span>
+        <div class="research__entry research__entry--with-photo">
+          <div class="research__details">
+            <div class="research__header">
+              <img src="images/nibs_short.png" alt="NIBS" class="research__logo">
+              <div>
+                <h3 class="research__lab" data-i18n="research2.lab">Li Lab</h3>
+                <span class="research__meta">
+                  <span data-i18n="research2.affil">Bioinformatics Center, NIBS, Beijing</span>
+                  <span class="research__dot">·</span>
+                  <span data-i18n="research2.period">Summer 2026</span>
+                </span>
+              </div>
             </div>
+            <ul class="research__list">
+              <li data-i18n="research2.skill1">Developed an automated literature target mining harness for large language models</li>
+            </ul>
           </div>
-          <ul class="research__list">
-            <li data-i18n="research2.skill1">Developed an automated literature target mining harness for large language models</li>
-          </ul>
+          <figure class="research__photo">
+            <img
+              src="images/experience/nibs-certificate-ceremony.jpg"
+              alt="Bowen Zheng with NIBS Director Xiaodong Wang at the Summer Training Program closing ceremony"
+              data-i18n-alt="research2.photoAlt"
+              width="1600"
+              height="1066"
+              loading="lazy"
+              decoding="async"
+            >
+            <figcaption data-i18n="research2.photoCaption">
+              With NIBS Director Xiaodong Wang at the Summer Training Program closing ceremony.
+            </figcaption>
+          </figure>
         </div>
-      </div>
-    </section>
-
-    <!-- Skills -->
-    <section class="skills" id="skills">
-      <div class="container">
-        <h2 class="sec__title" data-i18n="skills.title">Skills</h2>
-        <div class="skills__grid" id="skills-grid"></div>
       </div>
     </section>
 

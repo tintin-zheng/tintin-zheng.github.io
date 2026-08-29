@@ -10,7 +10,6 @@ const translations = {
     'nav.honors': '荣誉',
     'nav.service': '学工',
     'nav.research': '科研',
-    'nav.skills': '技能',
     'nav.projects': '项目',
     'nav.photos': '摄影',
     'nav.contact': '联系',
@@ -50,8 +49,8 @@ const translations = {
     'research2.affil': '北京生命科学研究所（NIBS）生物信息中心',
     'research2.period': '2026 暑期',
     'research2.skill1': '为大语言模型开发文献靶点挖掘自动化管线（Harness）',
-
-    'skills.title': '技能',
+    'research2.photoAlt': '郑博文与北京生命科学研究所所长王晓东在暑期训练计划结营典礼上的合影',
+    'research2.photoCaption': '在 NIBS 暑期训练计划结营典礼上与王晓东所长合影。',
 
     'projects.title': '项目',
     'projects.demo': '链接',
@@ -74,7 +73,6 @@ const translations = {
     'nav.honors': 'Honors',
     'nav.service': 'Service',
     'nav.research': 'Research',
-    'nav.skills': 'Skills',
     'nav.projects': 'Projects',
     'nav.photos': 'Photos',
     'nav.contact': 'Contact',
@@ -114,8 +112,8 @@ const translations = {
     'research2.affil': 'Bioinformatics Center, National Institute of Biological Sciences (NIBS), Beijing',
     'research2.period': 'Summer 2026',
     'research2.skill1': 'Developed an automated literature target mining harness for large language models',
-
-    'skills.title': 'Skills',
+    'research2.photoAlt': 'Bowen Zheng with NIBS Director Xiaodong Wang at the Summer Training Program closing ceremony',
+    'research2.photoCaption': 'With NIBS Director Xiaodong Wang at the Summer Training Program closing ceremony.',
 
     'projects.title': 'Projects',
     'projects.demo': 'Demo',

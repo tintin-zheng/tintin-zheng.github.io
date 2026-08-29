@@ -425,31 +425,51 @@ a:hover { text-decoration: underline; }
   color: var(--c-text-dim);
 }
 
-/* ============================================
-   技能
-   ============================================ */
-.skills {
-  padding: 2rem 0 5rem;
+.research__entry--with-photo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 280px);
+  gap: clamp(1.25rem, 4vw, 2.5rem);
+  align-items: start;
 }
 
-.skills__grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.research__details {
+  min-width: 0;
 }
 
-.skill-tag {
-  font-size: 0.88rem;
-  padding: 0.25rem 0.8rem;
+.research__photo {
+  width: 100%;
+  max-width: 260px;
+  margin: 0;
+  justify-self: center;
+}
+
+.research__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
   border: 1px solid var(--c-border);
-  border-radius: 3px;
-  color: var(--c-text);
-  background: transparent;
-  transition: background 0.15s;
+  border-radius: 6px;
+  box-shadow: 0 3px 14px var(--c-shadow);
 }
 
-.skill-tag:hover {
-  background: var(--c-code-bg);
+.research__photo figcaption {
+  margin-top: 0.5rem;
+  color: var(--c-text-dim);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .research__entry--with-photo {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .research__photo {
+    width: 72%;
+    margin: 1.2rem auto 0;
+    justify-self: center;
+  }
 }
 
 /* ============================================
@@ -743,7 +763,7 @@ a:hover { text-decoration: underline; }
     font-size: 1rem;
   }
 
-  .about, .honors, .service, .research, .skills, .projects, .photos, .contact {
+  .about, .honors, .service, .research, .projects, .photos, .contact {
     padding: 1rem 0 2.5rem;
   }
 
