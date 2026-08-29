@@ -327,6 +327,34 @@ a:hover { text-decoration: underline; }
   color: var(--c-text-dim);
 }
 
+.honors__photo {
+  width: min(52.5%, 390px);
+  margin: 1.6rem auto 0;
+}
+
+.honors__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  box-shadow: 0 3px 14px var(--c-shadow);
+}
+
+.honors__photo figcaption {
+  margin-top: 0.5rem;
+  color: var(--c-text-dim);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .honors__photo {
+    width: min(66%, 390px);
+  }
+}
+
 /* ============================================
    学生工作
    ============================================ */

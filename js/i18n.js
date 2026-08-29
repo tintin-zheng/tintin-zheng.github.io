@@ -28,6 +28,8 @@ const translations = {
     'honors.item2': '浙江大学二等奖学金',
     'honors.item3': '浙江大学爱丁堡大学联合学院二等奖学金',
     'honors.item4': '美国大学生数学建模竞赛（MCM）— Meritorious Winner, COMAP, Problem A',
+    'honors.photoAlt': '浙江省政府奖学金颁奖合影，郑博文位于左起第三位',
+    'honors.photoCaption': '浙江省政府奖学金颁奖合影（左三）',
 
     'service.title': '学生工作',
     'service.item1': '浙江大学国际联合学院学生会文宣与新媒体中心干事（2024-25）',
@@ -91,6 +93,8 @@ const translations = {
     'honors.item2': 'Zhejiang University Second-Class Scholarship',
     'honors.item3': 'ZJE Second-Class Scholarship',
     'honors.item4': 'Mathematical Contest in Modeling (MCM) — Meritorious Winner, COMAP, Problem A',
+    'honors.photoAlt': 'Zhejiang Provincial Government Scholarship award ceremony group photo; Bowen Zheng is third from the left',
+    'honors.photoCaption': 'Zhejiang Provincial Government Scholarship award ceremony (third from the left).',
 
     'service.title': 'Leadership & Service',
     'service.item1': 'Staff member, Culture, Publicity & New Media Center, Student Union of International Campus, Zhejiang University (2024-25)',
