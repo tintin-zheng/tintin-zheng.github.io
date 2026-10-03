@@ -61,6 +61,11 @@ const translations = {
 
     'photos.title': '摄影',
     'photos.intro': '瞬间永恒。',
+    'film.title': '胶片',
+    'film.intro': '慢一点，留住记忆。点击暗盒，展开胶片。',
+    'film.open': '→ 拉出胶片',
+    'film.close': '← 收回胶片',
+    'film.empty': '这一卷的照片即将入册。',
 
     'contact.title': '联系',
     'contact.text': '欢迎通过邮件或 GitHub 交流。',
@@ -126,6 +131,11 @@ const translations = {
 
     'photos.title': 'Photography',
     'photos.intro': 'Moments made eternal.',
+    'film.title': 'On film',
+    'film.intro': 'A slower way to remember. Click a canister to unroll.',
+    'film.open': '→ Unroll',
+    'film.close': '← Roll back',
+    'film.empty': 'Photographs from this roll are coming soon.',
 
     'contact.title': 'Contact',
     'contact.text': 'Feel free to reach out via email or GitHub.',

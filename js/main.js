@@ -59,6 +59,64 @@ const PHOTOS = PHOTO_FILES.map(filename => ({
   alt: filename.replace(/\.[^.]+$/, '')
 }));
 
+// 在 photos 中添加 { src: 'images/film/photos/文件名.jpg', alt: '说明' }。
+// 空数组显示未曝光的胶片帧，已有照片不会被误当作胶片作品。
+const FILM_ROLLS = [
+  {
+    id: '5219', name: { zh: '柯达 5219', en: 'Kodak 5219' },
+    stock: '500T · 35mm', sprite: 'images/film/kodak-5219-pixel.png', photos: []
+  },
+  {
+    id: 'gold-200', name: { zh: '柯达金 200', en: 'Kodak Gold 200' },
+    stock: '200 · 35mm', sprite: 'images/film/kodak-gold-200-pixel.png', photos: []
+  }
+];
+
+function renderFilmRolls() {
+  const list = document.getElementById('film-list');
+  if (!list) return;
+  const openIds = new Set(Array.from(list.querySelectorAll('.film-roll.is-open'), el => el.dataset.roll));
+  list.innerHTML = FILM_ROLLS.map(roll => {
+    const open = openIds.has(roll.id);
+    const frames = roll.photos.length ? roll.photos : [null, null, null];
+    return `
+      <article class="film-roll${open ? ' is-open' : ''}" data-roll="${roll.id}">
+        <button class="film-roll__canister" type="button" aria-expanded="${open}" aria-controls="film-strip-${roll.id}">
+          <img src="${roll.sprite}" alt="${roll.name[getLang()]}" width="1024" height="1536" loading="lazy" decoding="async" draggable="false">
+          <span class="film-roll__name">${roll.name[getLang()]}</span>
+          <span class="film-roll__stock">${roll.stock}</span>
+          <span class="film-roll__action">${t(open ? 'film.close' : 'film.open')}</span>
+        </button>
+        <div class="film-roll__drawer" id="film-strip-${roll.id}" aria-hidden="${!open}"${open ? '' : ' inert'}>
+          <div class="film-roll__clip">
+            <div class="film-strip">
+              ${frames.map((photo, index) => `
+                <figure class="film-strip__frame">
+                  <span class="film-strip__number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+                  ${photo ? `<img src="${photo.src}" alt="${photo.alt || ''}" loading="lazy" decoding="async">` : `<div class="film-strip__empty" aria-hidden="true"></div>`}
+                </figure>
+              `).join('')}
+              ${roll.photos.length ? '' : `<p class="film-strip__note">${t('film.empty')}</p>`}
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  list.querySelectorAll('.film-roll__canister').forEach(button => {
+    button.addEventListener('click', () => {
+      const roll = button.closest('.film-roll');
+      const open = roll.classList.toggle('is-open');
+      const drawer = roll.querySelector('.film-roll__drawer');
+      button.setAttribute('aria-expanded', String(open));
+      button.querySelector('.film-roll__action').textContent = t(open ? 'film.close' : 'film.open');
+      drawer.setAttribute('aria-hidden', String(!open));
+      drawer.inert = !open;
+    });
+  });
+}
+
 // ============================================
 // 渲染
 // ============================================
@@ -301,6 +359,7 @@ function setLang(lang) {
   });
 
   renderProjects();
+  renderFilmRolls();
 }
 
 function toggleLang() {

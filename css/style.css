@@ -739,6 +739,213 @@ a:hover { text-decoration: underline; }
 }
 
 /* ============================================
+   胶片 — 像素暗盒与向下展开的胶片
+   ============================================ */
+.film-collection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--c-border);
+}
+
+.film-collection__heading h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.film-collection__heading p {
+  color: var(--c-text-dim);
+  font-size: 0.88rem;
+}
+
+.film-collection__list {
+  display: grid;
+  align-items: start;
+  gap: 2.5rem;
+  margin: 2.5rem auto 0;
+}
+
+.film-roll {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 0;
+}
+
+.film-roll__canister {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 132px;
+  width: 132px;
+  padding: 0 0 1rem;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--c-text);
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.film-roll__canister:focus-visible {
+  outline: 2px dashed var(--c-accent);
+  outline-offset: 5px;
+}
+
+.film-roll__canister img {
+  order: 3;
+  display: block;
+  width: 132px;
+  height: 198px;
+  margin-top: 0.75rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transition: transform 180ms steps(3, end);
+}
+
+.film-roll__canister:hover img {
+  transform: translateX(-3px);
+}
+
+.film-roll__name {
+  order: 1;
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.film-roll__stock {
+  order: 2;
+  margin-top: 0.25rem;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--c-text-dim);
+}
+
+.film-roll__action {
+  order: 4;
+  font-family: var(--ff-mono);
+  font-size: 0.66rem;
+  line-height: 1.4;
+  padding: 0.3rem 0.5rem;
+  color: var(--c-accent);
+  background: var(--c-paper);
+}
+
+.film-roll__drawer {
+  display: grid;
+  grid-template-columns: 0fr;
+  flex: 1;
+  min-width: 0;
+  margin-left: -28px;
+  /* Align with the cartridge body, excluding the raised spindle. */
+  transform: translateY(14px);
+  transition: grid-template-columns 900ms cubic-bezier(0.22, 0.75, 0.25, 1);
+}
+
+.film-roll.is-open .film-roll__drawer {
+  grid-template-columns: 1fr;
+}
+
+.film-roll__clip {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.film-roll.is-open .film-roll__clip {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #795241 transparent;
+}
+
+.film-strip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: max-content;
+  padding: 20px 26px 20px 32px;
+  background: #34251f;
+  color: #d5b887;
+  border-right: 5px solid #201714;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  transform: translateX(-100%);
+  transition: transform 900ms cubic-bezier(0.22, 0.75, 0.25, 1);
+}
+
+.film-roll.is-open .film-strip {
+  transform: translateX(0);
+}
+
+.film-strip::before,
+.film-strip::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 7px;
+  background: repeating-linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px);
+}
+
+.film-strip::before { top: 5px; }
+.film-strip::after { bottom: 5px; }
+
+.film-strip__frame {
+  position: relative;
+  flex: 0 0 108px;
+  width: 108px;
+  margin: 0;
+}
+
+.film-strip__number {
+  position: absolute;
+  left: 0;
+  bottom: -12px;
+  font: 7px var(--ff-mono);
+}
+
+.film-strip__frame img,
+.film-strip__empty {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border: 3px solid #1c1512;
+}
+
+.film-strip__empty {
+  background: #604336;
+  box-shadow: inset 3px 3px 0 #51372d, inset -3px -3px 0 #795241;
+}
+
+.film-strip__note {
+  width: 140px;
+  margin: 0;
+  font-size: 0.67rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .film-collection__list { gap: 2rem; }
+  .film-roll__canister { flex-basis: 96px; width: 96px; }
+  .film-roll__canister img { width: 96px; height: 144px; }
+  .film-roll__drawer { margin-left: -20px; transform: translateY(10px); }
+  .film-strip { padding: 15px 20px 15px 24px; gap: 12px; }
+  .film-strip__frame { flex-basis: 78px; width: 78px; }
+  .film-roll__name { font-size: 0.82rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-roll__drawer,
+  .film-strip,
+  .film-roll__canister img { transition: none; }
+}
+
+/* ============================================
    联系
    ============================================ */
 .contact {
