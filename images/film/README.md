@@ -24,6 +24,8 @@ photos: [
 
 空数组显示三张空胶片帧及待入册提示。加入照片后自动替换为空间顺序一致的作品帧。中英文切换会保留胶卷的展开状态；减少动态效果模式直接展开。
 
+5219 当前收录原始编号 2、41、44、49、51、54、55、65、67，网页副本位于 `images/film/photos/5219/`，最长边为 1600 像素。原图不作修改。增加这一卷的照片时，将副本保存为六位编号文件名（例如 `000068.jpg`），再在 `js/main.js` 中 5219 的编号数组里加入 `68` 即可。胶片帧会显示原始编号。
+
 ## 生成提示词规格
 
 共同提示词：Create ONE production-ready pixel-art sprite on a genuinely transparent background for a personal photography website. Reference photographs are identity references only; reproduce the cylindrical film cartridge, not the packaging box or phone UI. Upright near-front view, subtly visible elliptical black top rim, hollow protruding spindle and black bottom rim. Approximately 96×144 logical pixel grid enlarged with nearest-neighbor square blocks, crisp stepped silhouette, limited palette. Full object centered with transparent margins. No film tongue yet, ground, shadow, background, watermark or decoration. Match scale, orientation and pixel density between the two cartridges.

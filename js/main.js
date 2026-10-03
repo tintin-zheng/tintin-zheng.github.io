@@ -82,7 +82,12 @@ const PHOTOS = PHOTO_FILES.map(filename => ({
 const FILM_ROLLS = [
   {
     id: '5219', name: { zh: '柯达 5219', en: 'Kodak 5219' },
-    stock: '500T · 35mm', sprite: 'images/film/kodak-5219-pixel.png', photos: []
+    stock: '500T · 35mm', sprite: 'images/film/kodak-5219-pixel.png',
+    photos: [2, 41, 44, 49, 51, 54, 55, 65, 67].map(number => ({
+      src: `images/film/photos/5219/${String(number).padStart(6, '0')}.jpg`,
+      alt: `Kodak 5219 · ${String(number).padStart(2, '0')}`,
+      frame: number
+    }))
   },
   {
     id: 'gold-200', name: { zh: '柯达金 200', en: 'Kodak Gold 200' },
@@ -110,11 +115,12 @@ function renderFilmRolls() {
             <div class="film-strip">
               ${frames.map((photo, index) => `
                 <figure class="film-strip__frame">
-                  <span class="film-strip__number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+                  <span class="film-strip__number" aria-hidden="true">${String(photo?.frame ?? index + 1).padStart(2, '0')}</span>
                   ${photo ? `<img src="${photo.src}" alt="${photo.alt || ''}" loading="lazy" decoding="async">` : `<div class="film-strip__empty" aria-hidden="true"></div>`}
                 </figure>
               `).join('')}
               ${roll.photos.length ? '' : `<p class="film-strip__note">${t('film.empty')}</p>`}
+              <span class="film-strip__leader" aria-hidden="true"></span>
             </div>
           </div>
         </div>
