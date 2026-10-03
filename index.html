@@ -25,6 +25,10 @@
         <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
         <li><a href="#photos" data-i18n="nav.photos">Photos</a></li>
         <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        <li class="nav__overflow" hidden>
+          <button class="nav__more" type="button" aria-label="更多导航 / More navigation" aria-expanded="false" aria-controls="nav-overflow-menu"><svg viewBox="0 0 20 4" width="20" height="4" aria-hidden="true"><circle cx="2" cy="2" r="2" fill="currentColor"/><circle cx="10" cy="2" r="2" fill="currentColor"/><circle cx="18" cy="2" r="2" fill="currentColor"/></svg></button>
+          <ul class="nav__overflow-menu" id="nav-overflow-menu" hidden></ul>
+        </li>
       </ul>
       <div class="nav__right">
         <button class="nav__btn" id="lang-toggle" aria-label="Switch language">
@@ -35,7 +39,26 @@
         </button>
       </div>
     </nav>
+    <button class="nav__music" id="music-toggle" type="button" aria-label="展开 CD 机" aria-controls="cd-player" aria-expanded="true" tabindex="-1">
+      <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M6 2h8v9h-1v2h-3v-1H9v-2h1V9h2V5H8v8H7v2H4v-1H3v-2h1v-1h2z"/></svg>
+    </button>
   </header>
+
+  <aside class="cd-player" id="cd-player" aria-label="CD player design preview">
+    <button class="cd-player__close" id="music-close" type="button" aria-label="关闭 CD 机并停止音乐">
+      <svg viewBox="0 0 7 7" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M0 0h1v1H0zM6 0h1v1H6zM1 1h1v1H1zM5 1h1v1H5zM2 2h1v1H2zM4 2h1v1H4zM3 3h1v1H3zM2 4h1v1H2zM4 4h1v1H4zM1 5h1v1H1zM5 5h1v1H5zM0 6h1v1H0zM6 6h1v1H6z"/></svg>
+    </button>
+    <img id="cd-player-art" src="images/music/cd-onetake.svg" alt="像素 CD 机，圆盘上是林志炫 ONEtake 2.0 专辑封面" width="160" height="160">
+    <div class="cd-player__disc" aria-hidden="true">
+      <img id="cd-disc-art" src="images/music/album-onetake-pixel.png" alt="">
+      <img class="cd-player__spindle" src="images/music/cd-spindle.svg" alt="">
+    </div>
+    <div class="cd-player__albums" role="group" aria-label="CD 播放控制">
+      <button type="button" data-control="previous" aria-label="上一首" title="上一首"></button>
+      <button type="button" data-control="pause" aria-label="暂停" aria-pressed="true" title="暂停"><svg viewBox="0 0 5 5" aria-hidden="true" shape-rendering="crispEdges"><path class="cd-key__pause" fill="currentColor" d="M0 0h2v5H0zM3 0h2v5H3z"/><path class="cd-key__play" fill="currentColor" d="M1 0h1v1h1v1h1v1H3v1H2v1H1z"/></svg></button>
+      <button type="button" data-control="next" aria-label="下一首" title="下一首"></button>
+    </div>
+  </aside>
 
   <div class="book">
     <!-- Intro -->

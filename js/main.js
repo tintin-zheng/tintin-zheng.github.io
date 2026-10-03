@@ -402,9 +402,11 @@ function getTheme() {
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('theme', t);
-  const icon = document.querySelector('#theme-toggle i');
-  if (icon) {
-    icon.className = t === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+  const themeButton = document.getElementById('theme-toggle');
+  if (themeButton) {
+    themeButton.innerHTML = t === 'dark'
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>'
+      : '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
   }
 }
 
@@ -415,9 +417,153 @@ function toggleTheme() {
 // ============================================
 // 启动
 // ============================================
+function initNavigationOverflow() {
+  const nav = document.querySelector('.nav');
+  const links = nav.querySelector('.nav__links');
+  const items = Array.from(links.children).filter(item => !item.classList.contains('nav__overflow'));
+  const overflow = nav.querySelector('.nav__overflow');
+  const button = overflow.querySelector('button');
+  const menu = overflow.querySelector('ul');
+  const copies = items.map(item => {
+    const copy = item.cloneNode(true);
+    menu.append(copy);
+    return copy;
+  });
+
+  function closeMenu() {
+    menu.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  function fit() {
+    const style = getComputedStyle(nav);
+    const sideWidth = Math.max(
+      nav.querySelector('.nav__brand').getBoundingClientRect().width,
+      nav.querySelector('.nav__right').getBoundingClientRect().width
+    );
+    const budget = nav.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)
+      - 2 * sideWidth
+      - 2 * parseFloat(style.columnGap);
+    items.forEach(item => { item.hidden = false; });
+    overflow.hidden = true;
+    let count = items.length;
+    if (links.getBoundingClientRect().width > budget) {
+      overflow.hidden = false;
+      while (count > 0 && links.getBoundingClientRect().width > budget) {
+        items[--count].hidden = true;
+      }
+    }
+    copies.forEach((copy, index) => { copy.hidden = index < count; });
+    if (overflow.hidden) closeMenu();
+  }
+
+  button.addEventListener('click', () => {
+    menu.hidden = !menu.hidden;
+    button.setAttribute('aria-expanded', String(!menu.hidden));
+  });
+  menu.addEventListener('click', event => {
+    if (event.target.closest('a')) closeMenu();
+  });
+  document.addEventListener('click', event => {
+    if (!overflow.contains(event.target)) closeMenu();
+  });
+  nav.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !menu.hidden) {
+      closeMenu();
+      button.focus();
+    }
+  });
+  new ResizeObserver(fit).observe(nav);
+  new MutationObserver(fit).observe(links, { childList: true, subtree: true, characterData: true });
+  document.fonts.ready.then(fit);
+  fit();
+}
+
+function initCDPlayer() {
+  const player = document.getElementById('cd-player');
+  const close = document.getElementById('music-close');
+  const toggle = document.getElementById('music-toggle');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const albumArt = document.getElementById('cd-player-art');
+  const albums = [
+    { src: 'images/music/cd-onetake.svg', cover: 'images/music/album-onetake-pixel.png', name: '林志炫 ONEtake 2.0' },
+    { src: 'images/music/cd-i.svg', cover: 'images/music/album-i-pixel.png', name: '莫文蔚 [i]' },
+    { src: 'images/music/cd-love-songs.svg', cover: 'images/music/album-love-songs-pixel.png', name: '林志炫 熟情歌' }
+  ];
+  const discArt = document.getElementById('cd-disc-art');
+  const pauseButton = player.querySelector('[data-control="pause"]');
+  let index = 0;
+  let playing = true;
+
+  function setPlaying(value) {
+    playing = value;
+    player.classList.toggle('is-playing', playing);
+    pauseButton.setAttribute('aria-pressed', String(playing));
+    pauseButton.setAttribute('aria-label', playing ? '暂停' : '播放');
+    pauseButton.title = playing ? '暂停' : '播放';
+    player.querySelectorAll('audio, video').forEach(media => {
+      if (playing) media.play().catch(() => setPlaying(false));
+      else media.pause();
+    });
+  }
+
+  function changeTrack(offset) {
+    index = (index + offset + albums.length) % albums.length;
+    albumArt.src = albums[index].src;
+    albumArt.alt = `像素 CD 机，圆盘上是${albums[index].name}专辑封面`;
+    discArt.src = albums[index].cover;
+  }
+  player.querySelector('[data-control="previous"]').addEventListener('click', () => changeTrack(-1));
+  player.querySelector('[data-control="next"]').addEventListener('click', () => changeTrack(1));
+  pauseButton.addEventListener('click', () => setPlaying(!playing));
+  setPlaying(true);
+  let busy = false;
+
+  async function setCollapsed(collapsed) {
+    if (busy) return;
+    busy = true;
+    if (collapsed) {
+      // Pause the player's audio as soon as it is dismissed.
+      setPlaying(false);
+    } else {
+      player.hidden = false;
+      player.inert = false;
+      toggle.classList.remove('is-visible');
+    }
+    const from = player.getBoundingClientRect();
+    const to = toggle.getBoundingClientRect();
+    const dx = to.x + to.width / 2 - (from.x + from.width / 2);
+    const dy = to.y + to.height / 2 - (from.y + from.height / 2);
+    const small = { transform: `translate(${dx}px, ${dy}px) scale(0.12)`, opacity: 0 };
+    const full = { transform: 'translate(0, 0) scale(1)', opacity: 1 };
+    player.inert = true;
+    try {
+      if (!reducedMotion.matches) {
+        await player.animate(collapsed ? [full, small] : [small, full], {
+          duration: 460,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+        }).finished;
+      }
+    } finally {
+      player.hidden = collapsed;
+      player.inert = collapsed;
+      toggle.classList.toggle('is-visible', collapsed);
+      toggle.tabIndex = collapsed ? 0 : -1;
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      (collapsed ? toggle : close).focus({ preventScroll: true });
+      busy = false;
+    }
+  }
+
+  close.addEventListener('click', () => setCollapsed(true));
+  toggle.addEventListener('click', () => setCollapsed(false));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initCDPlayer();
   setTheme(getTheme());
   setLang(getLang());
+  initNavigationOverflow();
   renderPhotos();
   renderProjects();
 
