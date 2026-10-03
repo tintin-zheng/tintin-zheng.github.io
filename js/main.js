@@ -145,11 +145,22 @@ function renderFilmRolls() {
       drawer.style.setProperty('--film-strip-height', `${strip.offsetHeight}px`);
     }
     clip.addEventListener('scroll', updateExtension, { passive: true });
+    let scrollbarIdleTimer;
+    function showScrollbar() {
+      clip.classList.add('is-scrolling');
+      clearTimeout(scrollbarIdleTimer);
+      scrollbarIdleTimer = setTimeout(() => {
+        clip.classList.remove('is-scrolling');
+      }, 900);
+    }
+    clip.addEventListener('scroll', showScrollbar, { passive: true });
     const observer = new ResizeObserver(updateExtension);
     observer.observe(strip);
     updateExtension();
     filmScrollCleanups.push(() => {
       clip.removeEventListener('scroll', updateExtension);
+      clip.removeEventListener('scroll', showScrollbar);
+      clearTimeout(scrollbarIdleTimer);
       observer.disconnect();
     });
   });
