@@ -27,6 +27,18 @@ const PROJECTS = [
   },
   {
     name: {
+      zh: 'Lens-Workbench — 团队器材与任务工作台',
+      en: 'Lens-Workbench — Team Equipment & Task Workspace'
+    },
+    desc: {
+      zh: '为 ZJE-Lens 摄影团队开发的器材借还与任务协作网站，面向摄影团队、工作室与社团等小型团队。支持器材库存管理、Kit 成套借还、团队任务参与、借还历史查询与 CSV 导出，并通过中文语音或文字生成可编辑的 AI 借用清单。使用 React 与 TypeScript 构建，结合 Azure Functions 和 Azure SQL，以数据库事务保证并发借用时的库存一致性，适配手机与深色模式。',
+      en: 'An equipment lending and task coordination website developed for the ZJE-Lens photography team and other small teams, studios, and clubs. It supports inventory management, equipment kits, task participation, lending history, and CSV export, with AI-assisted borrowing lists generated from Chinese voice or text input. Built with React and TypeScript, Azure Functions, and Azure SQL, it uses database transactions to maintain inventory consistency during concurrent borrowing and supports mobile layouts and dark mode.'
+    },
+    tags: ['React', 'TypeScript', 'Azure Functions', 'Azure SQL', 'Azure AI Speech', 'DeepSeek'],
+    source: 'https://github.com/tintin-zheng/Lens-Workbench'
+  },
+  {
+    name: {
       zh: 'TCGA 湿实验验证靶点挖掘管线',
       en: 'TCGA Wet-Lab Validated Target Mining Pipeline'
     },
