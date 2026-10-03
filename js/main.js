@@ -95,9 +95,13 @@ const FILM_ROLLS = [
   }
 ];
 
+let filmScrollCleanups = [];
+
 function renderFilmRolls() {
   const list = document.getElementById('film-list');
   if (!list) return;
+  filmScrollCleanups.forEach(cleanup => cleanup());
+  filmScrollCleanups = [];
   const openIds = new Set(Array.from(list.querySelectorAll('.film-roll.is-open'), el => el.dataset.roll));
   list.innerHTML = FILM_ROLLS.map(roll => {
     const open = openIds.has(roll.id);
@@ -111,6 +115,7 @@ function renderFilmRolls() {
           <span class="film-roll__action">${t(open ? 'film.close' : 'film.open')}</span>
         </button>
         <div class="film-roll__drawer" id="film-strip-${roll.id}" aria-hidden="${!open}"${open ? '' : ' inert'}>
+          <span class="film-roll__extension" aria-hidden="true"></span>
           <div class="film-roll__clip">
             <div class="film-strip">
               ${frames.map((photo, index) => `
@@ -127,6 +132,27 @@ function renderFilmRolls() {
       </article>
     `;
   }).join('');
+
+  list.querySelectorAll('.film-roll').forEach(roll => {
+    const drawer = roll.querySelector('.film-roll__drawer');
+    const clip = roll.querySelector('.film-roll__clip');
+    const strip = roll.querySelector('.film-strip');
+    // Safari exposes native rubber-band displacement as a negative scrollLeft.
+    // Fill that displacement behind the scrolling strip, anchored to the cartridge.
+    function updateExtension() {
+      const pull = Math.max(0, -clip.scrollLeft);
+      drawer.style.setProperty('--film-extension-width', `${Math.min(clip.clientWidth, pull + (pull > 0 ? 2 : 0))}px`);
+      drawer.style.setProperty('--film-strip-height', `${strip.offsetHeight}px`);
+    }
+    clip.addEventListener('scroll', updateExtension, { passive: true });
+    const observer = new ResizeObserver(updateExtension);
+    observer.observe(strip);
+    updateExtension();
+    filmScrollCleanups.push(() => {
+      clip.removeEventListener('scroll', updateExtension);
+      observer.disconnect();
+    });
+  });
 
   list.querySelectorAll('.film-roll__canister').forEach(button => {
     button.addEventListener('click', () => {

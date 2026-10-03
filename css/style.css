@@ -1004,6 +1004,7 @@ a:hover { text-decoration: underline; }
 }
 
 .film-roll__drawer {
+  position: relative;
   display: grid;
   grid-template-columns: 0fr;
   flex: 1;
@@ -1019,9 +1020,29 @@ a:hover { text-decoration: underline; }
 }
 
 .film-roll__clip {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   overflow: hidden;
 }
+
+/* A stationary film base fills the native overscroll gap, then retracts with it. */
+.film-roll__extension {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  width: var(--film-extension-width, 0px);
+  height: var(--film-strip-height, 0px);
+  pointer-events: none;
+  visibility: hidden;
+  background:
+    repeating-linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px) 12px 5px / calc(100% - 12px) 7px no-repeat,
+    repeating-linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px) 12px calc(100% - 5px) / calc(100% - 12px) 7px no-repeat,
+    #34251f;
+}
+
+.film-roll.is-open .film-roll__extension { visibility: visible; }
 
 .film-roll.is-open .film-roll__clip {
   overflow-x: auto;
