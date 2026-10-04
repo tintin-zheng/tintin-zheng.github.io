@@ -137,14 +137,15 @@ function renderFilmRolls() {
     const drawer = roll.querySelector('.film-roll__drawer');
     const clip = roll.querySelector('.film-roll__clip');
     const strip = roll.querySelector('.film-strip');
-    // Safari exposes native rubber-band displacement as a negative scrollLeft.
-    // Fill that displacement behind the scrolling strip, anchored to the cartridge.
+    // Keep the brown stock already painted behind the scrolling surface.
+    // Native rubber-band motion may not report negative scrollLeft in time.
+    // Stop the backing before the leader so its curved cutout stays transparent.
     function updateExtension() {
-      const pull = Math.max(0, -clip.scrollLeft);
-      drawer.style.setProperty('--film-extension-width', `${Math.min(clip.clientWidth, pull + (pull > 0 ? 2 : 0))}px`);
+      const leaderWidth = parseFloat(getComputedStyle(strip).getPropertyValue('--leader-width')) || 40;
+      const backingWidth = Math.max(0, Math.min(drawer.clientWidth, strip.offsetWidth) - leaderWidth - 16);
+      drawer.style.setProperty('--film-extension-width', `${backingWidth}px`);
       drawer.style.setProperty('--film-strip-height', `${strip.offsetHeight}px`);
     }
-    clip.addEventListener('scroll', updateExtension, { passive: true });
     let scrollbarIdleTimer;
     function showScrollbar() {
       clip.classList.add('is-scrolling');
@@ -156,9 +157,9 @@ function renderFilmRolls() {
     clip.addEventListener('scroll', showScrollbar, { passive: true });
     const observer = new ResizeObserver(updateExtension);
     observer.observe(strip);
+    observer.observe(drawer);
     updateExtension();
     filmScrollCleanups.push(() => {
-      clip.removeEventListener('scroll', updateExtension);
       clip.removeEventListener('scroll', showScrollbar);
       clearTimeout(scrollbarIdleTimer);
       observer.disconnect();

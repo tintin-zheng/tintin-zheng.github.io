@@ -1026,7 +1026,7 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
 }
 
-/* A stationary film base fills the native overscroll gap, then retracts with it. */
+/* Prepaint the continuous film stock behind the native rubber-band surface. */
 .film-roll__extension {
   position: absolute;
   left: 0;
@@ -1062,9 +1062,6 @@ a:hover { text-decoration: underline; }
 
 .film-roll.is-open .film-roll__clip {
   overflow-x: auto;
-  /* Keep the cartridge connection fixed at the boundary; native rubber-band
-     motion can run ahead of scroll events and expose a transient gap. */
-  overscroll-behavior-x: none;
   scrollbar-width: thin;
   scrollbar-color: var(--film-scroll-thumb) transparent;
 }
