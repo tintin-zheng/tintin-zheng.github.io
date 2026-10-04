@@ -144,7 +144,7 @@ function renderFilmRolls() {
     const strip = roll.querySelector('.film-strip');
     const scroll = initFilmScroll(roll, clip, strip);
     filmScrollCleanups.push(scroll.cleanup);
-    roll.querySelector('.film-roll__canister').addEventListener('click', () => scroll.reset());
+    roll.querySelector('.film-roll__canister').addEventListener('click', () => scroll.reset(!roll.classList.contains('is-open')));
   });
 
   list.querySelectorAll('.film-roll__canister').forEach(button => {
@@ -166,6 +166,7 @@ function initFilmScroll(roll, clip, strip) {
   let endPull = 0;
   let pointer = null;
   let reboundFrame = 0;
+  let revealFrame = 0;
   let wheelIdleTimer;
   let wheelEdge = 0;
   let scrollbarIdleTimer;
@@ -241,6 +242,7 @@ function initFilmScroll(roll, clip, strip) {
     const horizontal = Math.abs(event.deltaX) >= Math.abs(event.deltaY);
     let delta = horizontal ? event.deltaX : event.shiftKey ? event.deltaY : 0;
     if (!delta) return; // Keep ordinary vertical page scrolling.
+    cancelAnimationFrame(revealFrame);
     if (event.deltaMode === 1) delta *= 16;
     if (event.deltaMode === 2) delta *= clip.clientWidth;
     event.preventDefault();
@@ -260,6 +262,7 @@ function initFilmScroll(roll, clip, strip) {
     if (!roll.classList.contains('is-open') || !event.isPrimary || event.button !== 0) return;
     // Leave the native scrollbar itself draggable.
     if (event.clientY >= clip.getBoundingClientRect().bottom - 8) return;
+    cancelAnimationFrame(revealFrame);
     stopRebound();
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, start: position, dragging: false };
     clip.setPointerCapture(event.pointerId);
@@ -284,15 +287,28 @@ function initFilmScroll(roll, clip, strip) {
     clip.classList.remove('is-dragging');
     rebound();
   }
-  function reset() {
+  function reset(opening = false) {
+    cancelAnimationFrame(revealFrame);
     stopRebound();
     clearTimeout(wheelIdleTimer);
     wheelEdge = 0;
     if (pointer && clip.hasPointerCapture(pointer.id)) clip.releasePointerCapture(pointer.id);
     pointer = null;
     clip.classList.remove('is-dragging', 'is-elastic');
-    position = clip.scrollLeft;
+    position = 0;
     paint();
+    if (opening) {
+      // A long roll's transformed overflow can make the browser scroll during
+      // the reveal. Keep its first frame anchored, regardless of photo count.
+      const start = performance.now();
+      function anchorReveal(now) {
+        position = 0;
+        paint();
+        if (now - start < 950) revealFrame = requestAnimationFrame(anchorReveal);
+        else revealFrame = 0;
+      }
+      revealFrame = requestAnimationFrame(anchorReveal);
+    }
   }
 
   clip.addEventListener('scroll', onScroll, { passive: true });
