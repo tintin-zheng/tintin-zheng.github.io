@@ -144,7 +144,7 @@ function renderFilmRolls() {
     const strip = roll.querySelector('.film-strip');
     const scroll = initFilmScroll(roll, clip, strip);
     filmScrollCleanups.push(scroll.cleanup);
-    roll.querySelector('.film-roll__canister').addEventListener('click', () => scroll.reset(!roll.classList.contains('is-open')));
+    roll.querySelector('.film-roll__canister').addEventListener('click', () => scroll.reset(true));
   });
 
   list.querySelectorAll('.film-roll__canister').forEach(button => {
@@ -196,6 +196,10 @@ function initFilmScroll(roll, clip, strip) {
     cancelAnimationFrame(reboundFrame);
     reboundFrame = 0;
   }
+  function stopReveal() {
+    cancelAnimationFrame(revealFrame);
+    revealFrame = 0;
+  }
   function rebound() {
     stopRebound();
     const from = position;
@@ -242,7 +246,7 @@ function initFilmScroll(roll, clip, strip) {
     const horizontal = Math.abs(event.deltaX) >= Math.abs(event.deltaY);
     let delta = horizontal ? event.deltaX : event.shiftKey ? event.deltaY : 0;
     if (!delta) return; // Keep ordinary vertical page scrolling.
-    cancelAnimationFrame(revealFrame);
+    stopReveal();
     if (event.deltaMode === 1) delta *= 16;
     if (event.deltaMode === 2) delta *= clip.clientWidth;
     event.preventDefault();
@@ -260,9 +264,9 @@ function initFilmScroll(roll, clip, strip) {
   }
   function onPointerDown(event) {
     if (!roll.classList.contains('is-open') || !event.isPrimary || event.button !== 0) return;
+    stopReveal();
     // Leave the native scrollbar itself draggable.
     if (event.clientY >= clip.getBoundingClientRect().bottom - 8) return;
-    cancelAnimationFrame(revealFrame);
     stopRebound();
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, start: position, dragging: false };
     clip.setPointerCapture(event.pointerId);
@@ -287,24 +291,29 @@ function initFilmScroll(roll, clip, strip) {
     clip.classList.remove('is-dragging');
     rebound();
   }
-  function reset(opening = false) {
-    cancelAnimationFrame(revealFrame);
+  function onKeyDown(event) {
+    if (['ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'].includes(event.key)) stopReveal();
+  }
+  function reset(revealing = false) {
+    stopReveal();
     stopRebound();
     clearTimeout(wheelIdleTimer);
     wheelEdge = 0;
     if (pointer && clip.hasPointerCapture(pointer.id)) clip.releasePointerCapture(pointer.id);
     pointer = null;
     clip.classList.remove('is-dragging', 'is-elastic');
-    position = 0;
+    position = clip.scrollLeft;
     paint();
-    if (opening) {
-      // A long roll's transformed overflow can make the browser scroll during
-      // the reveal. Keep its first frame anchored, regardless of photo count.
+    if (revealing) {
+      // The drawer is the only reveal animation. Keep the actual leader at
+      // its moving right edge; extra photographs stay inside the cartridge.
+      // Once it finishes, ordinary scrolling and elastic pulls take over.
       const start = performance.now();
+      const duration = reduceMotion.matches ? 0 : 950;
       function anchorReveal(now) {
-        position = 0;
+        position = maxScroll();
         paint();
-        if (now - start < 950) revealFrame = requestAnimationFrame(anchorReveal);
+        if (now - start < duration) revealFrame = requestAnimationFrame(anchorReveal);
         else revealFrame = 0;
       }
       revealFrame = requestAnimationFrame(anchorReveal);
@@ -318,6 +327,7 @@ function initFilmScroll(roll, clip, strip) {
   clip.addEventListener('pointerup', onPointerUp);
   clip.addEventListener('pointercancel', onPointerUp);
   clip.addEventListener('lostpointercapture', onPointerUp);
+  clip.addEventListener('keydown', onKeyDown);
   return {
     reset,
     cleanup() {
@@ -330,6 +340,7 @@ function initFilmScroll(roll, clip, strip) {
       clip.removeEventListener('pointerup', onPointerUp);
       clip.removeEventListener('pointercancel', onPointerUp);
       clip.removeEventListener('lostpointercapture', onPointerUp);
+      clip.removeEventListener('keydown', onKeyDown);
     }
   };
 }
