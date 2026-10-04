@@ -497,6 +497,21 @@ function renderProjects() {
   const el = document.getElementById('projects-list');
   if (!el) return;
   const lang = getLang();
+  // Decorative, hand-drawn SVGs share a stroke style and inherit theme colour.
+  const groupIcons = {
+    research: `<svg class="project-group__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M7.2 13.3 10.1 11M14 8.1l1.6-2M14.8 11.2l4.1 2M12.8 12.5l.4 6M7 16.4l4.2 3.7M19.5 16.1l-4.2 4"/>
+      <circle cx="5.2" cy="15" r="2.6"/><circle cx="12.2" cy="9.6" r="2.6"/>
+      <circle cx="17.2" cy="4" r="2"/><circle cx="21.2" cy="14.4" r="2.6"/>
+      <circle cx="13.4" cy="21.2" r="2.6"/>
+    </svg>`,
+    personal: `<svg class="project-group__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <rect x="3.5" y="5" width="21" height="18" rx="2"/>
+      <path d="M3.5 10.5h21M10 15l-3 3 3 3M18 15l3 3-3 3M15.4 14.5l-2.8 7"/>
+      <circle cx="7" cy="7.8" r=".6" fill="currentColor" stroke="none"/>
+      <circle cx="10" cy="7.8" r=".6" fill="currentColor" stroke="none"/>
+    </svg>`
+  };
   const renderItem = p => `
     <div class="project-item">
       ${p.logo ? `
@@ -530,7 +545,7 @@ function renderProjects() {
     if (!projects.length) return '';
     return `
       <section class="project-group" aria-labelledby="projects-${category}-title">
-        <h3 class="project-group__title" id="projects-${category}-title">${t(`projects.${category}`)}</h3>
+        <h3 class="project-group__title" id="projects-${category}-title">${groupIcons[category]}<span>${t(`projects.${category}`)}</span></h3>
         <div class="project-group__list">${projects.map(renderItem).join('')}</div>
       </section>
     `;

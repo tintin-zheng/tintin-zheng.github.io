@@ -687,9 +687,20 @@ a:hover { text-decoration: underline; }
 }
 
 .project-group__title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0 0 1.5rem;
+}
+
+.project-group__icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--c-accent);
 }
 
 .project-group__list {
