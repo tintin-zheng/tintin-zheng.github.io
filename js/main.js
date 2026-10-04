@@ -127,7 +127,6 @@ function renderFilmRolls() {
                 </figure>
               `).join('')}
               ${roll.photos.length ? '' : `<p class="film-strip__note">${t('film.empty')}</p>`}
-              <span class="film-strip__leader" aria-hidden="true"></span>
             </div>
           </div>
         </div>
