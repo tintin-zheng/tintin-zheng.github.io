@@ -162,7 +162,8 @@ function initFilmScroll(roll, clip, strip) {
   let endPull = 0;
   let pointer = null;
   let reboundFrame = 0;
-  let reboundTimer;
+  let wheelIdleTimer;
+  let wheelEdge = 0;
   let scrollbarIdleTimer;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -188,7 +189,6 @@ function initFilmScroll(roll, clip, strip) {
   }
   function stopRebound() {
     cancelAnimationFrame(reboundFrame);
-    clearTimeout(reboundTimer);
     reboundFrame = 0;
   }
   function rebound() {
@@ -205,9 +205,15 @@ function initFilmScroll(roll, clip, strip) {
       return;
     }
     const start = performance.now();
+    const visualPull = pull + endPull;
+    const limit = Math.max(36, Math.min(120, clip.clientWidth * 0.25));
+    const direction = Math.sign(from - target);
     function step(now) {
-      const progress = Math.min(1, (now - start) / 550);
-      position = target + (from - target) * Math.pow(1 - progress, 3);
+      const progress = Math.min(1, (now - start) / 200);
+      // Ease the visible distance, not the accumulated gesture distance:
+      // a strong pull should start returning immediately, not linger at its cap.
+      const distance = visualPull * Math.pow(1 - progress, 3);
+      position = target + direction * (-limit * Math.log1p(-Math.min(0.999999, distance / limit)));
       paint();
       if (progress < 1) reboundFrame = requestAnimationFrame(step);
       else { reboundFrame = 0; clip.classList.remove('is-elastic'); }
@@ -234,9 +240,17 @@ function initFilmScroll(roll, clip, strip) {
     if (event.deltaMode === 1) delta *= 16;
     if (event.deltaMode === 2) delta *= clip.clientWidth;
     event.preventDefault();
+    const max = maxScroll();
+    const next = position + delta;
+    const edge = next < 0 ? -1 : next > max ? 1 : 0;
+    clearTimeout(wheelIdleTimer);
+    wheelIdleTimer = setTimeout(() => { wheelEdge = 0; }, 100);
+    // Momentum from one trackpad pull must not postpone or restart its rebound.
+    if (edge && wheelEdge === edge) { showScrollbar(); return; }
+    wheelEdge = edge;
     stopRebound();
-    move(position + delta);
-    reboundTimer = setTimeout(rebound, 140);
+    move(next);
+    rebound();
   }
   function onPointerDown(event) {
     if (!roll.classList.contains('is-open') || !event.isPrimary || event.button !== 0) return;
@@ -268,6 +282,8 @@ function initFilmScroll(roll, clip, strip) {
   }
   function reset() {
     stopRebound();
+    clearTimeout(wheelIdleTimer);
+    wheelEdge = 0;
     if (pointer && clip.hasPointerCapture(pointer.id)) clip.releasePointerCapture(pointer.id);
     pointer = null;
     clip.classList.remove('is-dragging', 'is-elastic');
