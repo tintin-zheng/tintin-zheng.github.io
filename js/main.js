@@ -94,7 +94,12 @@ const FILM_ROLLS = [
   },
   {
     id: 'gold-200', name: { zh: '柯达金 200', en: 'Kodak Gold 200' },
-    stock: '200 · 35mm', sprite: 'images/film/kodak-gold-200-pixel.png', photos: []
+    stock: '200 · 35mm', sprite: 'images/film/kodak-gold-200-pixel.png',
+    photos: [3, 4, 11, 13, 17, 19, 22, 25, 27, 33, 35, 36].map(number => ({
+      src: `images/film/photos/gold-200/${String(number).padStart(6, '0')}.jpg`,
+      alt: `Kodak Gold 200 · ${String(number).padStart(2, '0')}`,
+      frame: number
+    }))
   }
 ];
 
