@@ -678,6 +678,23 @@ a:hover { text-decoration: underline; }
 .projects__list {
   display: flex;
   flex-direction: column;
+  gap: 3rem;
+}
+
+.project-group + .project-group {
+  border-top: 1px solid var(--c-border);
+  padding-top: 2rem;
+}
+
+.project-group__title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+}
+
+.project-group__list {
+  display: flex;
+  flex-direction: column;
   gap: 2.5rem;
 }
 
@@ -907,7 +924,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* ============================================
-   胶片 — 像素暗盒与向下展开的胶片
+   胶片 — 像素暗盒与横向抽出的单层胶片
    ============================================ */
 .film-collection {
   margin-top: 3rem;
@@ -1024,25 +1041,16 @@ a:hover { text-decoration: underline; }
   z-index: 1;
   min-width: 0;
   overflow: hidden;
+  /* Edge elasticity is drawn by the single strip, not the browser surface. */
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
+  overflow-anchor: none;
+  cursor: grab;
+  user-select: none;
 }
 
-/* Prepaint the continuous film stock behind the native rubber-band surface. */
-.film-roll__extension {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 0;
-  width: var(--film-extension-width, 0px);
-  height: var(--film-strip-height, 0px);
-  pointer-events: none;
-  visibility: hidden;
-  background:
-    repeating-linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px) 12px 5px / calc(100% - 12px) 7px no-repeat,
-    repeating-linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px) 12px calc(100% - 5px) / calc(100% - 12px) 7px no-repeat,
-    #34251f;
-}
-
-.film-roll.is-open .film-roll__extension { visibility: visible; }
+.film-roll__clip.is-dragging { cursor: grabbing; }
+.film-roll__clip img { user-select: none; -webkit-user-drag: none; }
 
 @property --film-scroll-thumb {
   syntax: '<color>';
@@ -1078,6 +1086,9 @@ a:hover { text-decoration: underline; }
 }
 
 .film-strip {
+  --film-start-space: 32px;
+  --film-pull: 0px;
+  --film-end-pull: 0px;
   --leader-width: 40px;
   --leader-space: 56px;
   position: relative;
@@ -1085,7 +1096,7 @@ a:hover { text-decoration: underline; }
   align-items: center;
   gap: 18px;
   width: max-content;
-  padding: 20px var(--leader-space) 20px 32px;
+  padding: 20px var(--leader-space) 20px calc(var(--film-start-space) + var(--film-pull));
   background: linear-gradient(to right, #34251f 0 calc(100% - var(--leader-width)), transparent calc(100% - var(--leader-width)) 100%);
   color: #d5b887;
   transform: translateX(-100%);
@@ -1093,8 +1104,11 @@ a:hover { text-decoration: underline; }
 }
 
 .film-roll.is-open .film-strip {
-  transform: translateX(0);
+  transform: translateX(calc(0px - var(--film-end-pull)));
 }
+
+/* Opening keeps its slide transition; elastic motion is driven frame by frame. */
+.film-roll.is-open .film-roll__clip.is-elastic .film-strip { transition: none; }
 
 /* Keep the photographic leader smooth, unlike the pixel-art canister. */
 .film-strip__leader {
@@ -1113,7 +1127,10 @@ a:hover { text-decoration: underline; }
   left: 12px;
   right: 12px;
   height: 7px;
-  background: repeating-linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px);
+  background: linear-gradient(to right, var(--c-paper) 0 9px, transparent 9px 19px);
+  background-size: 19px 7px;
+  background-repeat: repeat-x;
+  background-position: var(--film-pull) 0;
 }
 
 .film-strip::before { top: 5px; z-index: 1; }
@@ -1160,7 +1177,7 @@ a:hover { text-decoration: underline; }
   .film-roll__canister { flex-basis: 96px; width: 96px; }
   .film-roll__canister img { width: 96px; height: 144px; }
   .film-roll__drawer { margin-left: -20px; transform: translateY(10px); }
-  .film-strip { --leader-width: 32px; --leader-space: 44px; padding: 15px var(--leader-space) 15px 24px; gap: 12px; }
+  .film-strip { --film-start-space: 24px; --leader-width: 32px; --leader-space: 44px; padding: 15px var(--leader-space) 15px calc(var(--film-start-space) + var(--film-pull)); gap: 12px; }
   .film-strip__frame { flex-basis: 78px; width: 78px; }
   .film-roll__name { font-size: 0.82rem; }
 }

@@ -55,6 +55,8 @@ const translations = {
     'research2.photoCaption': '在 NIBS 暑期训练计划结营典礼上与王晓东所长合影。',
 
     'projects.title': '项目',
+    'projects.research': '科研项目',
+    'projects.personal': '个人项目',
     'projects.demo': '链接',
     'projects.appgallery': 'AppGallery',
     'projects.source': '代码',
@@ -125,6 +127,8 @@ const translations = {
     'research2.photoCaption': 'With NIBS Director Xiaodong Wang at the Summer Training Program closing ceremony.',
 
     'projects.title': 'Projects',
+    'projects.research': 'Research Projects',
+    'projects.personal': 'Personal Projects',
     'projects.demo': 'Demo',
     'projects.appgallery': 'AppGallery',
     'projects.source': 'Code',

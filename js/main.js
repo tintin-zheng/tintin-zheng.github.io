@@ -8,6 +8,7 @@
 
 const PROJECTS = [
   {
+    category: 'personal',
     name: {
       zh: 'LensCue — 专业提词器',
       en: 'LensCue — Professional Teleprompter'
@@ -26,6 +27,7 @@ const PROJECTS = [
     source: 'https://github.com/tintin-zheng/LensCue'
   },
   {
+    category: 'personal',
     name: {
       zh: 'Lens-Workbench — 团队器材与任务工作台',
       en: 'Lens-Workbench — Team Equipment & Task Workspace'
@@ -44,6 +46,7 @@ const PROJECTS = [
     source: 'https://github.com/tintin-zheng/Lens-Workbench'
   },
   {
+    category: 'research',
     name: {
       zh: 'TCGA 湿实验验证靶点挖掘管线',
       en: 'TCGA Wet-Lab Validated Target Mining Pipeline'
@@ -115,13 +118,12 @@ function renderFilmRolls() {
           <span class="film-roll__action">${t(open ? 'film.close' : 'film.open')}</span>
         </button>
         <div class="film-roll__drawer" id="film-strip-${roll.id}" aria-hidden="${!open}"${open ? '' : ' inert'}>
-          <span class="film-roll__extension" aria-hidden="true"></span>
           <div class="film-roll__clip">
             <div class="film-strip">
               ${frames.map((photo, index) => `
                 <figure class="film-strip__frame">
                   <span class="film-strip__number" aria-hidden="true">${String(photo?.frame ?? index + 1).padStart(2, '0')}</span>
-                  ${photo ? `<img src="${photo.src}" alt="${photo.alt || ''}" loading="lazy" decoding="async">` : `<div class="film-strip__empty" aria-hidden="true"></div>`}
+                  ${photo ? `<img src="${photo.src}" alt="${photo.alt || ''}" loading="lazy" decoding="async" draggable="false">` : `<div class="film-strip__empty" aria-hidden="true"></div>`}
                 </figure>
               `).join('')}
               ${roll.photos.length ? '' : `<p class="film-strip__note">${t('film.empty')}</p>`}
@@ -134,36 +136,11 @@ function renderFilmRolls() {
   }).join('');
 
   list.querySelectorAll('.film-roll').forEach(roll => {
-    const drawer = roll.querySelector('.film-roll__drawer');
     const clip = roll.querySelector('.film-roll__clip');
     const strip = roll.querySelector('.film-strip');
-    // Keep the brown stock already painted behind the scrolling surface.
-    // Native rubber-band motion may not report negative scrollLeft in time.
-    // Stop the backing before the leader so its curved cutout stays transparent.
-    function updateExtension() {
-      const leaderWidth = parseFloat(getComputedStyle(strip).getPropertyValue('--leader-width')) || 40;
-      const backingWidth = Math.max(0, Math.min(drawer.clientWidth, strip.offsetWidth) - leaderWidth - 16);
-      drawer.style.setProperty('--film-extension-width', `${backingWidth}px`);
-      drawer.style.setProperty('--film-strip-height', `${strip.offsetHeight}px`);
-    }
-    let scrollbarIdleTimer;
-    function showScrollbar() {
-      clip.classList.add('is-scrolling');
-      clearTimeout(scrollbarIdleTimer);
-      scrollbarIdleTimer = setTimeout(() => {
-        clip.classList.remove('is-scrolling');
-      }, 900);
-    }
-    clip.addEventListener('scroll', showScrollbar, { passive: true });
-    const observer = new ResizeObserver(updateExtension);
-    observer.observe(strip);
-    observer.observe(drawer);
-    updateExtension();
-    filmScrollCleanups.push(() => {
-      clip.removeEventListener('scroll', showScrollbar);
-      clearTimeout(scrollbarIdleTimer);
-      observer.disconnect();
-    });
+    const scroll = initFilmScroll(roll, clip, strip);
+    filmScrollCleanups.push(scroll.cleanup);
+    roll.querySelector('.film-roll__canister').addEventListener('click', () => scroll.reset());
   });
 
   list.querySelectorAll('.film-roll__canister').forEach(button => {
@@ -177,6 +154,148 @@ function renderFilmRolls() {
       drawer.inert = !open;
     });
   });
+}
+
+function initFilmScroll(roll, clip, strip) {
+  let position = clip.scrollLeft;
+  let pull = 0;
+  let endPull = 0;
+  let pointer = null;
+  let reboundFrame = 0;
+  let reboundTimer;
+  let scrollbarIdleTimer;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // One strip owns the stock, photos, leader, and both rows of perforations.
+  // Pulling right adds length to its left padding, rather than translating it
+  // away from the cartridge or painting a second stock layer underneath.
+  const maxScroll = () => Math.max(0, strip.getBoundingClientRect().width - pull - clip.clientWidth);
+  function paint() {
+    const max = maxScroll();
+    const limit = Math.max(36, Math.min(120, clip.clientWidth * 0.25));
+    const resistance = distance => limit * (1 - Math.exp(-distance / limit));
+    pull = position < 0 ? resistance(-position) : 0;
+    endPull = position > max ? resistance(position - max) : 0;
+    strip.style.setProperty('--film-pull', `${pull}px`);
+    strip.style.setProperty('--film-end-pull', `${endPull}px`);
+    // Do not let layout/scroll anchoring change the logical scroll position.
+    clip.scrollLeft = Math.max(0, Math.min(max, position));
+  }
+  function showScrollbar() {
+    clip.classList.add('is-scrolling');
+    clearTimeout(scrollbarIdleTimer);
+    scrollbarIdleTimer = setTimeout(() => clip.classList.remove('is-scrolling'), 900);
+  }
+  function stopRebound() {
+    cancelAnimationFrame(reboundFrame);
+    clearTimeout(reboundTimer);
+    reboundFrame = 0;
+  }
+  function rebound() {
+    stopRebound();
+    const from = position;
+    const target = Math.max(0, Math.min(maxScroll(), from));
+    if (from === target) { paint(); clip.classList.remove('is-elastic'); return; }
+    clip.classList.add('is-elastic');
+    showScrollbar();
+    if (reduceMotion.matches) {
+      position = target;
+      paint();
+      clip.classList.remove('is-elastic');
+      return;
+    }
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min(1, (now - start) / 550);
+      position = target + (from - target) * Math.pow(1 - progress, 3);
+      paint();
+      if (progress < 1) reboundFrame = requestAnimationFrame(step);
+      else { reboundFrame = 0; clip.classList.remove('is-elastic'); }
+    }
+    reboundFrame = requestAnimationFrame(step);
+  }
+  function move(next) {
+    const max = maxScroll();
+    clip.classList.add('is-elastic');
+    position = Math.max(-800, Math.min(max + 800, next));
+    paint();
+    showScrollbar();
+  }
+  function onScroll() {
+    // Native scrollbar/keyboard navigation remains available.
+    if (!pull && !endPull && !reboundFrame && !pointer?.dragging) position = clip.scrollLeft;
+    showScrollbar();
+  }
+  function onWheel(event) {
+    if (!roll.classList.contains('is-open') || event.ctrlKey) return;
+    const horizontal = Math.abs(event.deltaX) >= Math.abs(event.deltaY);
+    let delta = horizontal ? event.deltaX : event.shiftKey ? event.deltaY : 0;
+    if (!delta) return; // Keep ordinary vertical page scrolling.
+    if (event.deltaMode === 1) delta *= 16;
+    if (event.deltaMode === 2) delta *= clip.clientWidth;
+    event.preventDefault();
+    stopRebound();
+    move(position + delta);
+    reboundTimer = setTimeout(rebound, 140);
+  }
+  function onPointerDown(event) {
+    if (!roll.classList.contains('is-open') || !event.isPrimary || event.button !== 0) return;
+    // Leave the native scrollbar itself draggable.
+    if (event.clientY >= clip.getBoundingClientRect().bottom - 8) return;
+    stopRebound();
+    pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, start: position, dragging: false };
+    clip.setPointerCapture(event.pointerId);
+  }
+  function onPointerMove(event) {
+    if (!pointer || pointer.id !== event.pointerId) return;
+    const dx = event.clientX - pointer.x;
+    const dy = event.clientY - pointer.y;
+    if (!pointer.dragging) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      if (Math.abs(dy) > Math.abs(dx)) { pointer = null; rebound(); return; }
+      pointer.dragging = true;
+      clip.classList.add('is-dragging');
+    }
+    event.preventDefault();
+    move(pointer.start - dx);
+  }
+  function onPointerUp(event) {
+    if (!pointer || pointer.id !== event.pointerId) return;
+    if (clip.hasPointerCapture(event.pointerId)) clip.releasePointerCapture(event.pointerId);
+    pointer = null;
+    clip.classList.remove('is-dragging');
+    rebound();
+  }
+  function reset() {
+    stopRebound();
+    if (pointer && clip.hasPointerCapture(pointer.id)) clip.releasePointerCapture(pointer.id);
+    pointer = null;
+    clip.classList.remove('is-dragging', 'is-elastic');
+    position = clip.scrollLeft;
+    paint();
+  }
+
+  clip.addEventListener('scroll', onScroll, { passive: true });
+  clip.addEventListener('wheel', onWheel, { passive: false });
+  clip.addEventListener('pointerdown', onPointerDown);
+  clip.addEventListener('pointermove', onPointerMove);
+  clip.addEventListener('pointerup', onPointerUp);
+  clip.addEventListener('pointercancel', onPointerUp);
+  clip.addEventListener('lostpointercapture', onPointerUp);
+  return {
+    reset,
+    cleanup() {
+      reset();
+      clearTimeout(scrollbarIdleTimer);
+      clip.removeEventListener('scroll', onScroll);
+      clip.removeEventListener('wheel', onWheel);
+      clip.removeEventListener('pointerdown', onPointerDown);
+      clip.removeEventListener('pointermove', onPointerMove);
+      clip.removeEventListener('pointerup', onPointerUp);
+      clip.removeEventListener('pointercancel', onPointerUp);
+      clip.removeEventListener('lostpointercapture', onPointerUp);
+    }
+  };
 }
 
 // ============================================
@@ -362,7 +481,7 @@ function renderProjects() {
   const el = document.getElementById('projects-list');
   if (!el) return;
   const lang = getLang();
-  el.innerHTML = PROJECTS.map(p => `
+  const renderItem = p => `
     <div class="project-item">
       ${p.logo ? `
         <div class="project-item__intro">
@@ -388,7 +507,18 @@ function renderProjects() {
         ${p.source ? `<a href="${p.source}" target="_blank" rel="noopener">${t('projects.source')} →</a>` : ''}
       </div>
     </div>
-  `).join('');
+  `;
+  // 明确分组顺序；新增项目只需填写 research 或 personal 分类。
+  el.innerHTML = ['research', 'personal'].map(category => {
+    const projects = PROJECTS.filter(p => p.category === category);
+    if (!projects.length) return '';
+    return `
+      <section class="project-group" aria-labelledby="projects-${category}-title">
+        <h3 class="project-group__title" id="projects-${category}-title">${t(`projects.${category}`)}</h3>
+        <div class="project-group__list">${projects.map(renderItem).join('')}</div>
+      </section>
+    `;
+  }).join('');
 }
 
 // ============================================
