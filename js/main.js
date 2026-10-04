@@ -500,14 +500,15 @@ function renderProjects() {
   // Decorative, hand-drawn SVGs share a stroke style and inherit theme colour.
   const groupIcons = {
     research: `<svg class="project-group__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M7.2 13.3 10.1 11M14 8.1l1.6-2M14.8 11.2l4.1 2M12.8 12.5l.4 6M7 16.4l4.2 3.7M19.5 16.1l-4.2 4"/>
-      <circle cx="5.2" cy="15" r="2.6"/><circle cx="12.2" cy="9.6" r="2.6"/>
-      <circle cx="17.2" cy="4" r="2"/><circle cx="21.2" cy="14.4" r="2.6"/>
-      <circle cx="13.4" cy="21.2" r="2.6"/>
+      <path d="M6 4h2v6c0 2-1 4-2 6l-3.2 5.8Q1.7 24 4.2 24h10.6q2.5 0 1.4-2.2L12 14q-1-2-1-4V4h2M5.4 17h8.2M17.5 7H19v14a3 3 0 0 0 6 0V7h1.5M19 12h6"/>
+      <g fill="currentColor" stroke="none">
+        <circle cx="8" cy="20" r=".7"/><circle cx="11.5" cy="21.5" r=".7"/>
+        <circle cx="22.5" cy="16" r=".7"/><circle cx="21.5" cy="19" r=".7"/>
+      </g>
     </svg>`,
     personal: `<svg class="project-group__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <rect x="3.5" y="5" width="21" height="18" rx="2"/>
-      <path d="M3.5 10.5h21M10 15l-3 3 3 3M18 15l3 3-3 3M15.4 14.5l-2.8 7"/>
+      <path d="M3.5 10.5h21M10 14.25l-2.5 2.5 2.5 2.5M18 14.25l2.5 2.5-2.5 2.5M15.2 13.75l-2.4 6"/>
       <circle cx="7" cy="7.8" r=".6" fill="currentColor" stroke="none"/>
       <circle cx="10" cy="7.8" r=".6" fill="currentColor" stroke="none"/>
     </svg>`
