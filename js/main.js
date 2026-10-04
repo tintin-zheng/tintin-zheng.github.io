@@ -171,6 +171,14 @@ function initFilmScroll(roll, clip, strip) {
   let wheelEdge = 0;
   let scrollbarIdleTimer;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const drawer = roll.querySelector('.film-roll__drawer');
+  function sizeDrawer() {
+    // Do not animate empty space before a short roll starts moving.
+    drawer.style.setProperty('--film-length', `${strip.getBoundingClientRect().width - pull}px`);
+  }
+  const stripResizeObserver = new ResizeObserver(sizeDrawer);
+  stripResizeObserver.observe(strip);
+  sizeDrawer();
 
   // One strip owns the stock, photos, leader, and both rows of perforations.
   // Pulling right adds length to its left padding, rather than translating it
@@ -305,13 +313,15 @@ function initFilmScroll(roll, clip, strip) {
     position = clip.scrollLeft;
     paint();
     if (revealing) {
-      // The drawer is the only reveal animation. Keep the actual leader at
-      // its moving right edge; extra photographs stay inside the cartridge.
-      // Once it finishes, ordinary scrolling and elastic pulls take over.
+      const closing = roll.classList.contains('is-open');
+      const from = position;
+      const width = clip.clientWidth;
+      // Opening follows the leader. Closing moves the currently viewed film
+      // directly into the cartridge, without first jumping to the leader.
       const start = performance.now();
       const duration = reduceMotion.matches ? 0 : 950;
       function anchorReveal(now) {
-        position = maxScroll();
+        position = closing ? Math.min(maxScroll(), from + Math.max(0, width - clip.clientWidth)) : maxScroll();
         paint();
         if (now - start < duration) revealFrame = requestAnimationFrame(anchorReveal);
         else revealFrame = 0;
@@ -332,6 +342,7 @@ function initFilmScroll(roll, clip, strip) {
     reset,
     cleanup() {
       reset();
+      stripResizeObserver.disconnect();
       clearTimeout(scrollbarIdleTimer);
       clip.removeEventListener('scroll', onScroll);
       clip.removeEventListener('wheel', onWheel);

@@ -1037,6 +1037,7 @@ a:hover { text-decoration: underline; }
   grid-template-columns: 0fr;
   flex: 1;
   min-width: 0;
+  max-width: var(--film-length, none);
   margin-left: -28px;
   /* Align with the cartridge body, excluding the raised spindle. */
   transform: translateY(14px);
@@ -1051,7 +1052,10 @@ a:hover { text-decoration: underline; }
   position: relative;
   z-index: 1;
   min-width: 0;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--film-scroll-thumb) transparent;
   /* Edge elasticity is drawn by the single strip, not the browser surface. */
   overscroll-behavior-x: none;
   touch-action: pan-y;
@@ -1077,12 +1081,6 @@ a:hover { text-decoration: underline; }
 .film-roll__clip.is-scrolling {
   --film-scroll-thumb: #795241;
   transition-duration: 120ms;
-}
-
-.film-roll.is-open .film-roll__clip {
-  overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--film-scroll-thumb) transparent;
 }
 
 .film-roll__clip::-webkit-scrollbar { height: 6px; }
