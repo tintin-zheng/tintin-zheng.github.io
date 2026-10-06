@@ -61,25 +61,11 @@ a { color: var(--c-accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* ============================================
-   羊皮纸卷轴
+   书本容器
    ============================================ */
-.scroll-page {
-  max-width: var(--w-book);
-  margin: 5.5rem auto 3rem;
-  filter: drop-shadow(0 6px 12px var(--c-shadow));
-}
-
 .book {
-  --paper-edge-top: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%2072%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M0%2018%20C132%208%20270%2032%20412%2024%20C573%2012%20664%2034%20815%2019%20C981%204%201094%2020%201200%203%20L1200%2072%20L0%2072%20Z%22%20fill%3D%22black%22/%3E%3C/svg%3E");
-  --paper-edge-bottom: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%2072%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M0%200%20H1200%20L1200%2046%20C1099%2039%20964%2061%20824%2051%20C692%2043%20572%2061%20421%2051%20C279%2042%20151%2057%200%2047%20Z%22%20fill%3D%22black%22/%3E%3C/svg%3E");
-  --turn-top: 4.5rem;
-  --turn-bottom: 4.5rem;
-  max-width: 100%;
-  margin: 0;
-  mask-image: var(--paper-edge-top), linear-gradient(#000, #000), var(--paper-edge-bottom);
-  mask-size: 100% var(--turn-top), 100% calc(100% - var(--turn-top) - var(--turn-bottom) + 2px), 100% var(--turn-bottom);
-  mask-position: top, center, bottom;
-  mask-repeat: no-repeat;
+  max-width: var(--w-book);
+  margin: 0 auto;
   background: var(--c-paper);
   position: relative;
   min-height: 100vh;
@@ -131,24 +117,6 @@ a:hover { text-decoration: underline; }
 .book > * {
   position: relative;
   z-index: 2;
-}
-
-/* The page boundary and its folded face share one contour and material. */
-.book > .scroll-edge {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: var(--turn-top);
-  z-index: 3;
-  pointer-events: none;
-}
-.scroll-edge svg { display: block; width: 100%; height: 100%; }
-.scroll-edge--top { top: 0; }
-.book > .scroll-edge--bottom { bottom: 0; height: var(--turn-bottom); }
-
-@media (max-width: 760px) {
-  .scroll-page { margin-top: 5rem; margin-bottom: 2rem; }
-  .book { --turn-top: 3rem; --turn-bottom: 3rem; }
 }
 
 /* ============================================
@@ -458,7 +426,7 @@ a:hover { text-decoration: underline; }
    ============================================ */
 /* Preserve the complete photograph and blend it into the paper. */
 .intro {
-  padding: 2.5rem 0 1rem;
+  padding: 3.5rem 0 1rem;
 }
 
 .intro__scene {
@@ -487,7 +455,7 @@ a:hover { text-decoration: underline; }
 
 .intro > .container {
   position: absolute;
-  top: 5rem;
+  top: 4.5rem;
   left: 0;
   right: 0;
   z-index: 1;
@@ -1057,7 +1025,7 @@ a:hover { text-decoration: underline; }
   align-items: center;
   flex: 0 0 132px;
   width: 132px;
-  padding: 5rem 0 1rem;
+  padding: 0 0 1rem;
   border: 0;
   border-radius: 3px;
   background: transparent;
@@ -1307,15 +1275,10 @@ a:hover { text-decoration: underline; }
    页脚
    ============================================ */
 .footer {
-  padding: 2rem 0 6rem;
+  padding: 2rem 0 3rem;
   border-top: 1px solid var(--c-border);
   color: var(--c-text-dim);
   font-size: 0.85rem;
-}
-
-@media (max-width: 760px) {
-  .intro { padding: 5rem 0 1rem; }
-  .footer { padding-bottom: 5rem; }
 }
 
 /* ============================================
