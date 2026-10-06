@@ -11,10 +11,10 @@
   --c-border:    #e8e0d2;   /* 分割线 */
   --c-code-bg:   #f2ece0;   /* 代码背景 */
   --c-shadow:    rgba(0,0,0,0.06);
-  --c-roll-light: #fffdf7;
-  --c-roll-mid:   #ede2ce;
-  --c-roll-shade: #b9a68a;
-  --c-roll-ink:   #90795b;
+  --c-roll-light: #f8edd8;
+  --c-roll-mid:   #e1cbaa;
+  --c-roll-shade: #b1936d;
+  --c-roll-ink:   #806344;
 
   --ff: 'Georgia', 'Noto Serif SC', 'Songti SC', 'STSong', 'PingFang SC', 'Microsoft YaHei', serif;
   --ff-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
@@ -73,7 +73,7 @@ a:hover { text-decoration: underline; }
    ============================================ */
 .book {
   max-width: var(--w-book);
-  margin: 6rem auto 4rem;
+  margin: 7.5rem auto 4rem;
   background: var(--c-paper);
   position: relative;
   min-height: 100vh;
@@ -127,51 +127,25 @@ a:hover { text-decoration: underline; }
   z-index: 2;
 }
 
-/* Paper curls belong to the document ends and scroll with the page. */
+/* Uneven paper contours and loose, asymmetric curls at the document ends. */
 .book > .scroll-edge {
   position: absolute;
   left: -1rem;
   right: -1rem;
-  height: 2.25rem;
+  height: 5.5rem;
   z-index: 3;
   pointer-events: none;
-  border-radius: 0.8rem / 50%;
-  background:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.06'/%3E%3C/svg%3E"),
-    linear-gradient(to bottom, var(--c-roll-shade) 0%, var(--c-roll-mid) 13%, var(--c-roll-light) 35%, var(--c-paper) 57%, var(--c-roll-mid) 79%, var(--c-roll-shade) 100%);
-  box-shadow:
-    inset 0 1px 1px color-mix(in srgb, var(--c-roll-light) 75%, transparent),
-    0 3px 4px rgb(54 39 20 / 14%),
-    0 9px 13px -7px rgb(54 39 20 / 24%);
+  filter: drop-shadow(0 5px 4px rgb(54 39 20 / 18%));
 }
-
-.scroll-edge--top { top: -1rem; }
-.book > .scroll-edge--bottom { bottom: -0.9rem; height: 1.9rem; }
-
-.scroll-edge::before,
-.scroll-edge::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 0.8rem;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--c-roll-ink) 40%, transparent);
-  background: radial-gradient(ellipse at 46% 48%,
-    var(--c-roll-ink) 0% 7%, var(--c-roll-shade) 9% 21%,
-    var(--c-roll-mid) 24% 35%, var(--c-roll-ink) 38% 42%,
-    var(--c-roll-light) 46% 63%, var(--c-roll-shade) 67% 75%,
-    var(--c-roll-mid) 79% 100%);
-}
-.scroll-edge::before { left: -1px; }
-.scroll-edge::after { right: -1px; transform: scaleX(-1); }
+.scroll-edge svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.scroll-edge--top { top: -2.5rem; }
+.book > .scroll-edge--bottom { bottom: -2.5rem; height: 4.75rem; }
 
 @media (max-width: 760px) {
-  .book { margin-top: 5.25rem; margin-bottom: 3rem; }
-  .book > .scroll-edge { left: -0.5rem; right: -0.5rem; height: 1.75rem; }
-  .scroll-edge--top { top: -0.8rem; }
-  .book > .scroll-edge--bottom { bottom: -0.75rem; height: 1.5rem; }
-  .scroll-edge::before, .scroll-edge::after { width: 0.6rem; }
+  .book { margin-top: 6rem; margin-bottom: 3rem; }
+  .book > .scroll-edge { left: -0.5rem; right: -0.5rem; height: 3.5rem; }
+  .scroll-edge--top { top: -1.5rem; }
+  .book > .scroll-edge--bottom { bottom: -1.5rem; height: 3rem; }
 }
 
 /* ============================================
@@ -510,7 +484,7 @@ a:hover { text-decoration: underline; }
 
 .intro > .container {
   position: absolute;
-  top: 2rem;
+  top: 3rem;
   left: 0;
   right: 0;
   z-index: 1;
@@ -521,7 +495,7 @@ a:hover { text-decoration: underline; }
 }
 
 @media (max-width: 1000px) {
-  .intro { padding: 2rem 0 1rem; }
+  .intro { padding: 3rem 0 1rem; }
   .intro > .container {
     position: relative;
     top: auto;
@@ -1340,7 +1314,7 @@ a:hover { text-decoration: underline; }
    窄屏调整
    ============================================ */
 @media (max-width: 480px) {
-  .intro { padding: 2rem 0 1rem; }
+  .intro { padding: 3rem 0 1rem; }
   .intro__name { font-size: 1.5rem; }
 
   .project-item__intro {
