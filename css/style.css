@@ -11,10 +11,6 @@
   --c-border:    #e8e0d2;   /* 分割线 */
   --c-code-bg:   #f2ece0;   /* 代码背景 */
   --c-shadow:    rgba(0,0,0,0.06);
-  --c-roll-light: #f8edd8;
-  --c-roll-mid:   #e1cbaa;
-  --c-roll-shade: #b1936d;
-  --c-roll-ink:   #806344;
 
   --ff: 'Georgia', 'Noto Serif SC', 'Songti SC', 'STSong', 'PingFang SC', 'Microsoft YaHei', serif;
   --ff-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
@@ -33,10 +29,6 @@
   --c-border:    #4a453e;
   --c-code-bg:   #423d36;
   --c-shadow:    rgba(0,0,0,0.25);
-  --c-roll-light: #655d4e;
-  --c-roll-mid:   #494236;
-  --c-roll-shade: #29251f;
-  --c-roll-ink:   #211d18;
 }
 
 /* ============================================
@@ -73,7 +65,7 @@ a:hover { text-decoration: underline; }
    ============================================ */
 .book {
   max-width: var(--w-book);
-  margin: 7.5rem auto 4rem;
+  margin: 9rem auto 5rem;
   background: var(--c-paper);
   position: relative;
   min-height: 100vh;
@@ -127,25 +119,36 @@ a:hover { text-decoration: underline; }
   z-index: 2;
 }
 
-/* Uneven paper contours and loose, asymmetric curls at the document ends. */
+/* Photographic paper lips: alpha and a short fade join the flat sheet. */
 .book > .scroll-edge {
+  --curl-height: clamp(4rem, 12vw, 10rem);
   position: absolute;
   left: -1rem;
   right: -1rem;
-  height: 5.5rem;
+  height: var(--curl-height);
   z-index: 3;
   pointer-events: none;
-  filter: drop-shadow(0 5px 4px rgb(54 39 20 / 18%));
+  background-repeat: no-repeat;
+  background-position: center calc(var(--curl-height) * -0.1875);
+  background-size: 100% calc(var(--curl-height) * 1.5625);
 }
-.scroll-edge svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.scroll-edge--top { top: -2.5rem; }
-.book > .scroll-edge--bottom { bottom: -2.5rem; height: 4.75rem; }
+.scroll-edge--top {
+  top: calc(var(--curl-height) * -0.4);
+  background-image: url('../images/parchment-curl-top.png');
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+}
+.book > .scroll-edge--bottom {
+  bottom: calc(var(--curl-height) * -0.4);
+  background-image: url('../images/parchment-curl-bottom.png');
+  background-size: 100% calc(var(--curl-height) * 1.4375);
+  background-position: center calc(var(--curl-height) * -0.3);
+  mask-image: linear-gradient(to bottom, transparent, #000 40%);
+}
+[data-theme="dark"] .scroll-edge { filter: brightness(0.48) saturate(0.6); }
 
 @media (max-width: 760px) {
   .book { margin-top: 6rem; margin-bottom: 3rem; }
-  .book > .scroll-edge { left: -0.5rem; right: -0.5rem; height: 3.5rem; }
-  .scroll-edge--top { top: -1.5rem; }
-  .book > .scroll-edge--bottom { bottom: -1.5rem; height: 3rem; }
+  .book > .scroll-edge { left: -0.5rem; right: -0.5rem; }
 }
 
 /* ============================================
@@ -455,7 +458,7 @@ a:hover { text-decoration: underline; }
    ============================================ */
 /* Preserve the complete photograph and blend it into the paper. */
 .intro {
-  padding: 0 0 1rem;
+  padding: 5rem 0 1rem;
 }
 
 .intro__scene {
@@ -484,7 +487,7 @@ a:hover { text-decoration: underline; }
 
 .intro > .container {
   position: absolute;
-  top: 3rem;
+  top: 7rem;
   left: 0;
   right: 0;
   z-index: 1;
@@ -495,7 +498,7 @@ a:hover { text-decoration: underline; }
 }
 
 @media (max-width: 1000px) {
-  .intro { padding: 3rem 0 1rem; }
+  .intro { padding: 7rem 0 1rem; }
   .intro > .container {
     position: relative;
     top: auto;
@@ -1054,7 +1057,7 @@ a:hover { text-decoration: underline; }
   align-items: center;
   flex: 0 0 132px;
   width: 132px;
-  padding: 0 0 1rem;
+  padding: 5rem 0 1rem;
   border: 0;
   border-radius: 3px;
   background: transparent;
@@ -1304,10 +1307,15 @@ a:hover { text-decoration: underline; }
    页脚
    ============================================ */
 .footer {
-  padding: 2rem 0 3rem;
+  padding: 2rem 0 8rem;
   border-top: 1px solid var(--c-border);
   color: var(--c-text-dim);
   font-size: 0.85rem;
+}
+
+@media (max-width: 760px) {
+  .intro { padding: 3rem 0 1rem; }
+  .footer { padding-bottom: 5rem; }
 }
 
 /* ============================================
