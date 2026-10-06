@@ -424,52 +424,44 @@ a:hover { text-decoration: underline; }
 /* ============================================
    简介
    ============================================ */
+/* Keep the complete 16:9 photograph; place desktop text in the sky. */
 .intro {
-  padding: 5rem 0 3.5rem;
-  isolation: isolate;
+  padding: 3.5rem 0 1rem;
 }
 
-/* Campus photograph blends into the paper without changing section height. */
-.intro::before,
-.intro::after {
-  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-}
-.intro::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: url('../images/intro-campus.webp') 70% 60% / cover no-repeat;
-  filter: saturate(0.75);
-  opacity: 0.85;
+.intro__landscape {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
 }
 
-.intro::after {
-  content: '';
+.intro > .container {
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(to bottom, transparent 55%, var(--c-paper) 100%),
-    linear-gradient(to right, var(--c-paper) 0%, color-mix(in srgb, var(--c-paper) 94%, transparent) 30%, color-mix(in srgb, var(--c-paper) 60%, transparent) 58%, color-mix(in srgb, var(--c-paper) 12%, transparent) 100%);
+  top: 4.5rem;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  --c-text: #302f2c;
+  --c-text-dim: #4c514f;
 }
 
 .intro__loc {
   max-width: 38rem;
 }
 
-[data-theme="dark"] .intro::before {
-  opacity: 0.5;
-}
-
-@media (max-width: 760px) {
-  .intro::before { background-position: 80% 60%; opacity: 0.65; }
-  .intro::after {
-    background:
-      linear-gradient(to bottom, transparent 55%, var(--c-paper) 100%),
-      linear-gradient(to right, color-mix(in srgb, var(--c-paper) 96%, transparent), color-mix(in srgb, var(--c-paper) 65%, transparent));
+@media (max-width: 1000px) {
+  .intro { padding: 5rem 0 1rem; }
+  .intro > .container {
+    position: relative;
+    top: auto;
+    --c-text: #3d3832;
+    --c-text-dim: #8a8278;
+  }
+  .intro__landscape { margin-top: 1.25rem; }
+  [data-theme="dark"] .intro > .container {
+    --c-text: #dcd8cf;
+    --c-text-dim: #9a948a;
   }
 }
 
@@ -1281,7 +1273,7 @@ a:hover { text-decoration: underline; }
    窄屏调整
    ============================================ */
 @media (max-width: 480px) {
-  .intro { padding: 5rem 0 2rem; }
+  .intro { padding: 5rem 0 1rem; }
   .intro__name { font-size: 1.5rem; }
 
   .project-item__intro {
