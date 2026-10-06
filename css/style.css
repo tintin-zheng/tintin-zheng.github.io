@@ -424,12 +424,29 @@ a:hover { text-decoration: underline; }
 /* ============================================
    简介
    ============================================ */
-/* Keep the complete 16:9 photograph; place desktop text in the sky. */
+/* Preserve the complete photograph and blend it into the paper. */
 .intro {
   padding: 3.5rem 0 1rem;
 }
 
+.intro__scene {
+  position: relative;
+}
+
+.intro__scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--c-paper) 88%, transparent) 0%, color-mix(in srgb, var(--c-paper) 65%, transparent) 25%, transparent 48%),
+    linear-gradient(to right, color-mix(in srgb, var(--c-paper) 24%, transparent), transparent 70%);
+}
+
 .intro__landscape {
+  filter: saturate(0.8);
+  opacity: 0.9;
+  mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
   display: block;
   width: 100%;
   height: auto;
@@ -442,8 +459,6 @@ a:hover { text-decoration: underline; }
   left: 0;
   right: 0;
   z-index: 1;
-  --c-text: #302f2c;
-  --c-text-dim: #4c514f;
 }
 
 .intro__loc {
@@ -455,13 +470,10 @@ a:hover { text-decoration: underline; }
   .intro > .container {
     position: relative;
     top: auto;
-    --c-text: #3d3832;
-    --c-text-dim: #8a8278;
   }
-  .intro__landscape { margin-top: 1.25rem; }
-  [data-theme="dark"] .intro > .container {
-    --c-text: #dcd8cf;
-    --c-text-dim: #9a948a;
+  .intro__scene { margin-top: 1.25rem; }
+  .intro__scene::after {
+    background: linear-gradient(to bottom, var(--c-paper), transparent 25%);
   }
 }
 
