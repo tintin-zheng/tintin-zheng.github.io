@@ -425,7 +425,7 @@ a:hover { text-decoration: underline; }
    简介
    ============================================ */
 .intro {
-  padding: 5rem 0 6rem;
+  padding: 5rem 0 3.5rem;
 }
 
 .intro__hi {
@@ -457,7 +457,7 @@ a:hover { text-decoration: underline; }
    关于
    ============================================ */
 .about {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .about__grid p {
@@ -470,7 +470,7 @@ a:hover { text-decoration: underline; }
    荣誉
    ============================================ */
 .honors {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .honors__list {
@@ -527,7 +527,7 @@ a:hover { text-decoration: underline; }
    学生工作
    ============================================ */
 .service {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .service__list {
@@ -548,7 +548,7 @@ a:hover { text-decoration: underline; }
    科研经历
    ============================================ */
 .research {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .research__entry + .research__entry {
@@ -672,7 +672,7 @@ a:hover { text-decoration: underline; }
    项目
    ============================================ */
 .projects {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .projects__list {
@@ -773,7 +773,7 @@ a:hover { text-decoration: underline; }
    摄影
    ============================================ */
 .photos {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .photos__intro {
@@ -1202,7 +1202,7 @@ a:hover { text-decoration: underline; }
    联系
    ============================================ */
 .contact {
-  padding: 2rem 0 5rem;
+  padding: 1.5rem 0 3rem;
 }
 
 .contact__text {
@@ -1236,7 +1236,7 @@ a:hover { text-decoration: underline; }
    窄屏调整
    ============================================ */
 @media (max-width: 480px) {
-  .intro { padding: 5rem 0 3rem; }
+  .intro { padding: 5rem 0 2rem; }
   .intro__name { font-size: 1.5rem; }
 
   .project-item__intro {
@@ -1252,7 +1252,7 @@ a:hover { text-decoration: underline; }
   }
 
   .about, .honors, .service, .research, .projects, .photos, .contact {
-    padding: 1rem 0 2.5rem;
+    padding: 1rem 0 1.75rem;
   }
 
   .contact__links {
