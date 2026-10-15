@@ -61,7 +61,7 @@ const translations = {
     'projects.appgallery': 'AppGallery',
     'projects.miniprogram': '小程序码',
     'projects.miniprogramAlt': 'Lens-Workbench 微信小程序码',
-    'projects.miniprogramHint': '微信扫一扫，或长按识别',
+    'projects.miniprogramHint': '微信扫一扫',
     'projects.source': '代码',
 
     'photos.title': '摄影',
@@ -136,7 +136,7 @@ const translations = {
     'projects.appgallery': 'AppGallery',
     'projects.miniprogram': 'Mini Program',
     'projects.miniprogramAlt': 'Lens-Workbench WeChat Mini Program code',
-    'projects.miniprogramHint': 'Scan with WeChat or long-press to recognize',
+    'projects.miniprogramHint': 'Scan with WeChat',
     'projects.source': 'Code',
 
     'photos.title': 'Photography',
