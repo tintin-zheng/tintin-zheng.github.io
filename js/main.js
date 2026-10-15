@@ -43,7 +43,8 @@ const PROJECTS = [
     },
     tags: ['React', 'TypeScript', 'Azure Functions', 'Azure SQL', 'Azure AI Speech', 'DeepSeek'],
     demo: 'https://kind-island-032130600.7.azurestaticapps.net/',
-    source: 'https://github.com/tintin-zheng/Lens-Workbench'
+    source: 'https://github.com/tintin-zheng/Lens-Workbench',
+    miniProgramCode: 'images/lens-workbench-miniprogram.jpg'
   },
   {
     category: 'research',
@@ -579,6 +580,13 @@ function renderProjects() {
         ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener">${t('projects.demo')} →</a>` : ''}
         ${p.appGallery ? `<a href="${p.appGallery}" target="_blank" rel="noopener">${t('projects.appgallery')} →</a>` : ''}
         ${p.source ? `<a href="${p.source}" target="_blank" rel="noopener">${t('projects.source')} →</a>` : ''}
+        ${p.miniProgramCode ? `<details class="project-item__qr">
+          <summary>${t('projects.miniprogram')} →</summary>
+          <figure class="project-item__qr-panel">
+            <img src="${p.miniProgramCode}" alt="${t('projects.miniprogramAlt')}" width="430" height="430" loading="lazy">
+            <figcaption>${t('projects.miniprogramHint')}</figcaption>
+          </figure>
+        </details>` : ''}
       </div>
     </div>
   `;

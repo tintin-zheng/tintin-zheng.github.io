@@ -59,6 +59,9 @@ const translations = {
     'projects.personal': '个人项目',
     'projects.demo': '链接',
     'projects.appgallery': 'AppGallery',
+    'projects.miniprogram': '小程序码',
+    'projects.miniprogramAlt': 'Lens-Workbench 微信小程序码',
+    'projects.miniprogramHint': '微信扫一扫，或长按识别',
     'projects.source': '代码',
 
     'photos.title': '摄影',
@@ -131,6 +134,9 @@ const translations = {
     'projects.personal': 'Personal Projects',
     'projects.demo': 'Demo',
     'projects.appgallery': 'AppGallery',
+    'projects.miniprogram': 'Mini Program',
+    'projects.miniprogramAlt': 'Lens-Workbench WeChat Mini Program code',
+    'projects.miniprogramHint': 'Scan with WeChat or long-press to recognize',
     'projects.source': 'Code',
 
     'photos.title': 'Photography',
