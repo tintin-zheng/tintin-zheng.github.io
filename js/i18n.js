@@ -43,7 +43,7 @@ const translations = {
     'research.project': '强直性脊柱炎（AS）跨器官单细胞研究：探索肠道—关节轴的免疫细胞状态与跨组织免疫联系',
     'research.skill1': '参与 CD8⁺ T 细胞计算分析，比较外周血（PBMC）与肠道中 KIR⁺ / KIR⁻ 细胞的转录特征',
     'research.skill2': '按供者汇总表达量，使用 pseudobulk 与 edgeR 开展差异表达分析，并结合基因模块打分比较细胞状态',
-    'research.skill3': '使用 Slingshot 探索 CD8⁺ T 细胞状态轨迹，评估供者留一、主成分数量及起点设置对结果的影响',
+    'research.skill3': '使用 Slingshot 探索 CD8⁺ T 细胞状态轨迹，通过逐一排除供者、调整主成分数量和轨迹起点，检查分析结果的稳健性',
     'research.skill4': '运用 Python、R 与 Linux 环境进行数据处理、统计分析和结果可视化',
     'research.skill5': '组会报告与 Journal Club 文献研讨',
 
@@ -118,7 +118,7 @@ const translations = {
     'research.project': 'Cross-organ single-cell study of ankylosing spondylitis (AS), investigating immune cell states and cross-tissue immune links along the gut–joint axis',
     'research.skill1': 'Contributed to CD8⁺ T-cell computational analyses, comparing transcriptional profiles of KIR⁺ and KIR⁻ cells in peripheral blood (PBMC) and gut tissue',
     'research.skill2': 'Aggregated expression by donor for pseudobulk differential expression analysis with edgeR, complemented by gene module scoring to compare cell states',
-    'research.skill3': 'Explored CD8⁺ T-cell state trajectories with Slingshot and assessed sensitivity to donor exclusion, the number of principal components, and root selection',
+    'research.skill3': 'Explored CD8⁺ T-cell state trajectories with Slingshot and checked the robustness of the results by excluding one donor at a time and varying the number of principal components and trajectory root',
     'research.skill4': 'Processed data, performed statistical analyses, and visualized results using Python and R in a Linux environment',
     'research.skill5': 'Group meetings & Journal Club presentations',
 
