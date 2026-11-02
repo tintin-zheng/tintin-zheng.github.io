@@ -24,6 +24,7 @@ const translations = {
     'about.p2': '学业之外，我也有诸多爱好：摄影，阅读，音乐……虽不精通，却皆有浅尝；常希望时间能慢下来，让镜头留住细碎温柔，让书页容纳万千心绪，让旋律抚平日常匆忙。在热爱里沉淀自我，于方寸中窥见本真。',
 
     'honors.title': '荣誉与奖项',
+    'honors.item5': '浙江大学优秀学生（2025-26）',
     'honors.item1': '浙江省政府奖学金（2024-25）',
     'honors.item2': '浙江大学二等奖学金',
     'honors.item3': '浙江大学爱丁堡大学联合学院二等奖学金',
@@ -99,6 +100,7 @@ const translations = {
     'about.p2': 'Beyond academics, I find joy in photography, reading, and music. I claim no mastery in any, yet each offers its own rhythm: the shutter freezing fleeting moments, the pages holding boundless thoughts, the melodies quieting the rush of daily life. In these passions, I settle into myself and catch glimpses of what truly matters.',
 
     'honors.title': 'Honors & Awards',
+    'honors.item5': 'Outstanding Student, Zhejiang University (2025-26)',
     'honors.item1': 'Zhejiang Provincial Government Scholarship (2024-25)',
     'honors.item2': 'Zhejiang University Second-Class Scholarship',
     'honors.item3': 'ZJE Second-Class Scholarship',
